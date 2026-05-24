@@ -37,9 +37,9 @@
     gap: 8px;
     flex-wrap: wrap;
   }
-  .topbar-left { display: flex; align-items: center; gap: 8px; opacity: 0.85; }
+  .topbar-left { display: flex; align-items: center; gap: 8px; opacity: 0.85; flex-wrap: wrap; }
   .topbar-sep { opacity: 0.35; }
-  .topbar-right { opacity: 0.75; font-size: 0.75rem; }
+  .topbar-right { display: none; }
 
   /* ── Header ── */
   header {
@@ -332,6 +332,44 @@
     color: #a0adb8;
     margin-top: 32px;
   }
+
+  /* ── Mobile ── */
+  @media (max-width: 640px) {
+    .topbar { padding: 6px 14px; font-size: 0.72rem; }
+    .topbar-sep { display: none; }
+    .topbar-left span:not(:first-child) { display: none; }
+
+    header { padding: 0 14px; min-height: 56px; }
+    .header-logo { width: 34px; height: 34px; font-size: 1rem; }
+    .header-title { font-size: 0.9rem; }
+    .header-subtitle { font-size: 0.72rem; }
+    .header-nav { gap: 6px; }
+    .btn-nav { padding: 5px 12px; font-size: 0.78rem; }
+    header > span { display: none; }
+
+    .breadcrumb { padding: 8px 14px; font-size: 0.75rem; }
+    .breadcrumb a:first-child { display: none; }
+    .breadcrumb .breadcrumb-sep:first-of-type { display: none; }
+
+    main { margin: 14px auto; padding: 0 12px; }
+    .page-title { font-size: 1.05rem; }
+    .page-meta { gap: 8px; font-size: 0.78rem; }
+
+    .alert-info { padding: 10px 12px; font-size: 0.8rem; flex-direction: column; gap: 6px; }
+    .alert-links { gap: 4px 10px; }
+
+    .controles { padding: 12px 12px 0; gap: 8px; }
+    #busca { min-width: 0; width: 100%; }
+    #filtro-uf { width: 100%; }
+    #contador { margin-left: 0; width: 100%; text-align: right; }
+
+    thead th { padding: 9px 10px; font-size: 0.7rem; }
+    td { padding: 9px 10px; font-size: 0.82rem; }
+    td.data { display: none; }
+    thead th:nth-child(3) { display: none; }
+
+    .btn-abrir { padding: 4px 10px; font-size: 0.76rem; }
+  }
 </style>
 </head>
 <body>
@@ -341,18 +379,16 @@
     <span>Ministério da Saúde</span>
     <span class="topbar-sep">|</span>
     <span>SAPS – Secretaria de Atenção Primária à Saúde</span>
-    <span class="topbar-sep">|</span>
-    <span>DEAP – Departamento de Atenção Primária</span>
   </div>
-  <div class="topbar-right">Sistema APS 360</div>
+  <div class="topbar-right"></div>
 </div>
 
 <header>
   <div class="header-brand">
     <div class="header-logo">📋</div>
     <div>
-      <div class="header-title">Gerencia APS – Notas Técnicas</div>
-      <div class="header-subtitle">Gestão Municipal · APS 360</div>
+      <div class="header-title">Notas Técnicas APS</div>
+      <div class="header-subtitle">Gestão Municipal · Ministério da Saúde</div>
     </div>
   </div>
   <nav class="header-nav">
@@ -360,7 +396,7 @@
        id="btn-panorama">
       &#9685; Panorama APS
     </a>
-    <span style="font-size:0.78rem;color:#6b7c93;">5571 relatórios &nbsp;·&nbsp; Atualizado em 23/05/2026 22:32</span>
+    <span style="font-size:0.78rem;color:#6b7c93;">5571 relatórios &nbsp;·&nbsp; Atualizado em 23/05/2026 22:40</span>
   </nav>
 </header>
 
@@ -5994,7 +6030,7 @@
   </div>
 </main>
 
-<footer>Ministério da Saúde · SAPS/DEAP · Notas Técnicas Municipais APS 360</footer>
+<footer>Ministério da Saúde – 2026</footer>
 
 <script>
   const busca    = document.getElementById('busca');
