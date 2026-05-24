@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>APS 360 – Índice de Relatórios</title>
+<title>Notas Técnicas Municipais – APS 360</title>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-D8TE54RKD3"></script>
 <script>
@@ -13,184 +13,406 @@
   gtag('config', 'G-D8TE54RKD3');
 </script>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f4f8; color: #333; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  header {
-    background: #005a9c;
-    color: white;
-    padding: 20px 32px;
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 14px;
+    background: #f2f5f8;
+    color: #2c3e50;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Top bar ── */
+  .topbar {
+    background: #1a3a5c;
+    color: #fff;
+    font-size: 0.78rem;
+    padding: 6px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
     gap: 8px;
+    flex-wrap: wrap;
   }
-  header h1 { font-size: 1.4rem; font-weight: 600; }
-  header span { font-size: 0.85rem; opacity: 0.8; }
+  .topbar-left { display: flex; align-items: center; gap: 8px; opacity: 0.85; }
+  .topbar-sep { opacity: 0.35; }
+  .topbar-right { opacity: 0.75; font-size: 0.75rem; }
 
-  .notas-anteriores {
-    background: #f8f9fa;
-    border-bottom: 1px solid #e0e8f0;
-    padding: 10px 32px;
-    font-size: 0.85rem;
-    color: #555;
-    text-align: center;
+  /* ── Header ── */
+  header {
+    background: #fff;
+    border-bottom: 3px solid #005a9c;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    min-height: 64px;
   }
-  .notas-anteriores a {
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .header-logo {
+    width: 40px;
+    height: 40px;
+    background: #005a9c;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+  .header-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a3a5c;
+    line-height: 1.2;
+  }
+  .header-subtitle {
+    font-size: 0.78rem;
+    color: #6b7c93;
+    margin-top: 2px;
+  }
+  .header-nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .btn-nav {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 16px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background .18s, color .18s;
+    white-space: nowrap;
+  }
+  .btn-nav-outline {
+    border: 1.5px solid #005a9c;
+    color: #005a9c;
+    background: transparent;
+  }
+  .btn-nav-outline:hover {
+    background: #005a9c;
+    color: #fff;
+  }
+
+  /* ── Breadcrumb ── */
+  .breadcrumb {
+    background: #fff;
+    border-bottom: 1px solid #e3eaf2;
+    padding: 10px 24px;
+    font-size: 0.8rem;
+    color: #6b7c93;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .breadcrumb a {
     color: #005a9c;
     text-decoration: none;
     font-weight: 500;
   }
-  .notas-anteriores a:hover { text-decoration: underline; }
-  .notas-anteriores strong { color: #333; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb-sep { color: #c0cad6; }
 
-  .container { max-width: 1100px; margin: 28px auto; padding: 0 16px; }
-
-  .controles {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 16px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-
-  #busca {
+  /* ── Main content ── */
+  main {
     flex: 1;
-    min-width: 220px;
-    padding: 10px 16px;
-    border: 1px solid #ccd6e0;
+    max-width: 1160px;
+    width: 100%;
+    margin: 24px auto;
+    padding: 0 20px;
+  }
+
+  /* ── Page title area ── */
+  .page-header {
+    margin-bottom: 20px;
+  }
+  .page-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1a3a5c;
+    margin-bottom: 4px;
+  }
+  .page-meta {
+    font-size: 0.82rem;
+    color: #6b7c93;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .page-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .badge-parcela {
+    display: inline-block;
+    background: #e8f0fa;
+    color: #005a9c;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 12px;
+    letter-spacing: .02em;
+  }
+
+  /* ── Alert (notas anteriores) ── */
+  .alert-info {
+    background: #edf4ff;
+    border: 1px solid #c2d9f5;
+    border-left: 4px solid #005a9c;
     border-radius: 6px;
-    font-size: 1rem;
-    outline: none;
-    transition: border-color .2s;
+    padding: 12px 16px;
+    font-size: 0.83rem;
+    color: #1a3a5c;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
   }
-  #busca:focus { border-color: #005a9c; }
-
-  #filtro-uf {
-    padding: 10px 14px;
-    border: 1px solid #ccd6e0;
-    border-radius: 6px;
-    font-size: 0.95rem;
-    background: white;
-    cursor: pointer;
+  .alert-info strong { white-space: nowrap; }
+  .alert-info a {
+    color: #005a9c;
+    text-decoration: none;
+    font-weight: 600;
   }
+  .alert-info a:hover { text-decoration: underline; }
+  .alert-links { display: flex; flex-wrap: wrap; gap: 4px 12px; }
 
-  #contador {
-    font-size: 0.88rem;
-    color: #666;
-    white-space: nowrap;
-  }
-
+  /* ── Card ── */
   .card {
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 1px 6px rgba(0,0,0,.08);
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #dde5ef;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
     overflow: hidden;
   }
 
-  table { width: 100%; border-collapse: collapse; }
-  thead { background: #005a9c; color: white; }
-  thead th {
-    padding: 12px 16px;
-    text-align: left;
-    font-size: 0.88rem;
-    font-weight: 600;
-    letter-spacing: .03em;
+  /* ── Controls ── */
+  .controles {
+    display: flex;
+    gap: 10px;
+    padding: 16px 16px 0;
+    flex-wrap: wrap;
+    align-items: center;
   }
-  tbody tr { border-bottom: 1px solid #eef2f7; transition: background .15s; }
+  #busca {
+    flex: 1;
+    min-width: 200px;
+    padding: 8px 14px 8px 36px;
+    border: 1.5px solid #c8d6e5;
+    border-radius: 20px;
+    font-size: 0.88rem;
+    outline: none;
+    transition: border-color .2s;
+    background: #f8fafc url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236b7c93' stroke-width='2.5'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 12px center;
+    background-size: 14px;
+    color: #2c3e50;
+  }
+  #busca:focus { border-color: #005a9c; background-color: #fff; }
+  #busca::placeholder { color: #a0adb8; }
+
+  #filtro-uf {
+    padding: 8px 12px;
+    border: 1.5px solid #c8d6e5;
+    border-radius: 20px;
+    font-size: 0.88rem;
+    background: #f8fafc;
+    color: #2c3e50;
+    cursor: pointer;
+    outline: none;
+    transition: border-color .2s;
+  }
+  #filtro-uf:focus { border-color: #005a9c; }
+
+  #contador {
+    font-size: 0.8rem;
+    color: #6b7c93;
+    white-space: nowrap;
+    margin-left: auto;
+  }
+
+  /* ── Table ── */
+  .table-wrap { overflow-x: auto; margin-top: 12px; }
+  table { width: 100%; border-collapse: collapse; min-width: 480px; }
+
+  thead tr {
+    border-bottom: 2px solid #dde5ef;
+    background: #f5f8fc;
+  }
+  thead th {
+    padding: 11px 16px;
+    text-align: left;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #005a9c;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid #edf1f7;
+    transition: background .12s;
+  }
+  tbody tr:last-child { border-bottom: none; }
   tbody tr:hover { background: #f5f9ff; }
   tbody tr.oculto { display: none; }
-  td { padding: 10px 16px; font-size: 0.93rem; vertical-align: middle; }
+
+  td {
+    padding: 10px 16px;
+    font-size: 0.88rem;
+    vertical-align: middle;
+    color: #2c3e50;
+  }
 
   .uf-badge {
     display: inline-block;
-    background: #e8f0f8;
+    background: #e8f0fa;
     color: #005a9c;
     font-weight: 700;
-    font-size: 0.78rem;
+    font-size: 0.72rem;
     padding: 2px 8px;
-    border-radius: 4px;
-    letter-spacing: .05em;
+    border-radius: 10px;
+    letter-spacing: .06em;
   }
 
   .municipio { font-weight: 500; }
-  .data { color: #888; font-size: 0.85rem; }
+  td.data { color: #8a99aa; font-size: 0.82rem; }
 
   .btn-abrir {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
     padding: 5px 14px;
     background: #005a9c;
-    color: white;
-    border-radius: 5px;
+    color: #fff;
+    border-radius: 20px;
     text-decoration: none;
-    font-size: 0.85rem;
-    transition: background .2s;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: background .18s;
+    white-space: nowrap;
   }
-  .btn-abrir:hover { background: #16375a; }
+  .btn-abrir:hover { background: #004880; }
 
+  /* ── Empty state ── */
   .sem-resultado {
     display: none;
     text-align: center;
-    padding: 40px;
-    color: #999;
-    font-size: 1rem;
+    padding: 48px 20px;
+    color: #a0adb8;
+    font-size: 0.92rem;
   }
+  .sem-resultado svg { display: block; margin: 0 auto 12px; opacity: .35; }
 
+  /* ── Footer ── */
   footer {
+    background: #fff;
+    border-top: 1px solid #e3eaf2;
     text-align: center;
-    padding: 20px;
-    font-size: 0.8rem;
-    color: #aaa;
-    margin-top: 24px;
+    padding: 16px;
+    font-size: 0.75rem;
+    color: #a0adb8;
+    margin-top: 32px;
   }
 </style>
 </head>
 <body>
 
-<header>
-  <div>
-    <h1>📋 Notas Técnicas Municipais</h1>
-    <div style="font-size:0.95rem;margin-top:6px;opacity:0.9;">Parcela: <strong>Maio de 2026</strong></div>
+<div class="topbar">
+  <div class="topbar-left">
+    <span>Ministério da Saúde</span>
+    <span class="topbar-sep">|</span>
+    <span>SAPS – Secretaria de Atenção Primária à Saúde</span>
+    <span class="topbar-sep">|</span>
+    <span>DEAP – Departamento de Atenção Primária</span>
   </div>
-  <nav style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
-    <a href="https://apspanorama.onrender.com/" target="_blank"
-       onclick="gtag('event', 'acesso_panorama_aps', {'origem': 'notas_tecnicas'})"
-       style="color:#fff;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.4);
-              padding:6px 14px;border-radius:5px;text-decoration:none;font-size:0.85rem;white-space:nowrap;">
-      📊 Panorama APS
+  <div class="topbar-right">Sistema APS 360</div>
+</div>
+
+<header>
+  <div class="header-brand">
+    <div class="header-logo">📋</div>
+    <div>
+      <div class="header-title">Gerencia APS – Notas Técnicas</div>
+      <div class="header-subtitle">Gestão Municipal · APS 360</div>
+    </div>
+  </div>
+  <nav class="header-nav">
+    <a href="https://apspanorama.onrender.com/" target="_blank" class="btn-nav btn-nav-outline"
+       id="btn-panorama">
+      &#9685; Panorama APS
     </a>
-    <span style="opacity:0.7;font-size:0.85rem;">5571 relatórios &nbsp;|&nbsp; Gerado em 23/05/2026 22:21</span>
+    <span style="font-size:0.78rem;color:#6b7c93;">5571 relatórios &nbsp;·&nbsp; Atualizado em 23/05/2026 22:32</span>
   </nav>
 </header>
 
-<div class="notas-anteriores">
-  <strong>Notas anteriores:</strong> &nbsp;
-  <a href="https://saudegov.sharepoint.com/:f:/s/notastecnicas/IgBJ2lxqjQYpQrXGy0wZJesTAXv2h9Y0Y1Mgvytw5EFbS5I?e=2cw3ub" target="_blank">Abril 2026</a> &nbsp;·&nbsp; <a href="https://saudegov.sharepoint.com/:f:/s/notastecnicas/IgAXeC3N0GzWRbUYz5YXc4urASQkHyh2K04yVP5tAqwj0uM?e=EuAOQ9" target="_blank">Março 2026</a> &nbsp;·&nbsp; <a href="https://saudegov.sharepoint.com/:f:/s/notastecnicas/IgAwFhPxnJj7TbN-3X7zwBtNAQczCcJEHQPCH5XTB6K3778?e=QBqemp" target="_blank">Fevereiro 2026</a>
+<div class="breadcrumb">
+  <a href="#">Início</a>
+  <span class="breadcrumb-sep">›</span>
+  <a href="#">Notas Técnicas</a>
+  <span class="breadcrumb-sep">›</span>
+  <span>Municípios – Maio 2026</span>
 </div>
 
-<div class="container">
-  <div class="controles">
-    <input id="busca" type="text" placeholder="🔍  Buscar município..." autofocus>
-    <select id="filtro-uf">
-      <option value="">Todos os estados</option>
-      <option value="ac">AC</option><option value="al">AL</option><option value="am">AM</option><option value="ap">AP</option><option value="ba">BA</option><option value="ce">CE</option><option value="df">DF</option><option value="es">ES</option><option value="go">GO</option><option value="ma">MA</option><option value="mg">MG</option><option value="ms">MS</option><option value="mt">MT</option><option value="pa">PA</option><option value="pb">PB</option><option value="pe">PE</option><option value="pi">PI</option><option value="pr">PR</option><option value="rj">RJ</option><option value="rn">RN</option><option value="ro">RO</option><option value="rr">RR</option><option value="rs">RS</option><option value="sc">SC</option><option value="se">SE</option><option value="sp">SP</option><option value="to">TO</option>
-    </select>
-    <span id="contador">5571 de 5571 relatórios</span>
+<main>
+  <div class="page-header">
+    <div class="page-title">Notas Técnicas Municipais</div>
+    <div class="page-meta">
+      <div class="page-meta-item">
+        <span>Parcela:</span>
+        <span class="badge-parcela">Maio 2026</span>
+      </div>
+      <div class="page-meta-item">5571 relatórios disponíveis</div>
+    </div>
+  </div>
+
+  <div class="alert-info">
+    <strong>Parcelas anteriores:</strong>
+    <div class="alert-links">
+      <a href="https://saudegov.sharepoint.com/:f:/s/notastecnicas/IgBJ2lxqjQYpQrXGy0wZJesTAXv2h9Y0Y1Mgvytw5EFbS5I?e=2cw3ub" target="_blank">Abril 2026</a> &nbsp;·&nbsp; <a href="https://saudegov.sharepoint.com/:f:/s/notastecnicas/IgAXeC3N0GzWRbUYz5YXc4urASQkHyh2K04yVP5tAqwj0uM?e=EuAOQ9" target="_blank">Março 2026</a> &nbsp;·&nbsp; <a href="https://saudegov.sharepoint.com/:f:/s/notastecnicas/IgAwFhPxnJj7TbN-3X7zwBtNAQczCcJEHQPCH5XTB6K3778?e=QBqemp" target="_blank">Fevereiro 2026</a>
+    </div>
   </div>
 
   <div class="card">
-    <table id="tabela">
-      <thead>
-        <tr>
-          <th style="width:70px">UF</th>
-          <th>Município</th>
-          <th style="width:120px">Data</th>
-          <th style="width:100px">Arquivo</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr data-municipio="acrelândia" data-uf="ac"><td><span class="uf-badge">AC</span></td><td class="municipio">Acrelândia</td><td class="data">20-05-2026</td><td><a href="https://saudegov.sharepoint.com/:w:/r/sites/notastecnicas/Documentos%20Compartilhados/Municipios/Maio%202026/AC/Acrel%C3%A2ndia_20-05-2026.docx" target="_blank" class="btn-abrir">📄 Abrir</a></td></tr>
+    <div class="controles">
+      <input id="busca" type="text" placeholder="Buscar município..." autofocus>
+      <select id="filtro-uf">
+        <option value="">Todos os estados</option>
+        <option value="ac">AC</option><option value="al">AL</option><option value="am">AM</option><option value="ap">AP</option><option value="ba">BA</option><option value="ce">CE</option><option value="df">DF</option><option value="es">ES</option><option value="go">GO</option><option value="ma">MA</option><option value="mg">MG</option><option value="ms">MS</option><option value="mt">MT</option><option value="pa">PA</option><option value="pb">PB</option><option value="pe">PE</option><option value="pi">PI</option><option value="pr">PR</option><option value="rj">RJ</option><option value="rn">RN</option><option value="ro">RO</option><option value="rr">RR</option><option value="rs">RS</option><option value="sc">SC</option><option value="se">SE</option><option value="sp">SP</option><option value="to">TO</option>
+      </select>
+      <span id="contador">5571 de 5571 relatórios</span>
+    </div>
+
+    <div class="table-wrap">
+      <table id="tabela">
+        <thead>
+          <tr>
+            <th style="width:72px">UF</th>
+            <th>Município</th>
+            <th style="width:110px">Data</th>
+            <th style="width:110px">Documento</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-municipio="acrelândia" data-uf="ac"><td><span class="uf-badge">AC</span></td><td class="municipio">Acrelândia</td><td class="data">20-05-2026</td><td><a href="https://saudegov.sharepoint.com/:w:/r/sites/notastecnicas/Documentos%20Compartilhados/Municipios/Maio%202026/AC/Acrel%C3%A2ndia_20-05-2026.docx" target="_blank" class="btn-abrir">📄 Abrir</a></td></tr>
 <tr data-municipio="assis brasil" data-uf="ac"><td><span class="uf-badge">AC</span></td><td class="municipio">Assis Brasil</td><td class="data">20-05-2026</td><td><a href="https://saudegov.sharepoint.com/:w:/r/sites/notastecnicas/Documentos%20Compartilhados/Municipios/Maio%202026/AC/Assis_Brasil_20-05-2026.docx" target="_blank" class="btn-abrir">📄 Abrir</a></td></tr>
 <tr data-municipio="brasiléia" data-uf="ac"><td><span class="uf-badge">AC</span></td><td class="municipio">Brasiléia</td><td class="data">20-05-2026</td><td><a href="https://saudegov.sharepoint.com/:w:/r/sites/notastecnicas/Documentos%20Compartilhados/Municipios/Maio%202026/AC/Brasil%C3%A9ia_20-05-2026.docx" target="_blank" class="btn-abrir">📄 Abrir</a></td></tr>
 <tr data-municipio="bujari" data-uf="ac"><td><span class="uf-badge">AC</span></td><td class="municipio">Bujari</td><td class="data">20-05-2026</td><td><a href="https://saudegov.sharepoint.com/:w:/r/sites/notastecnicas/Documentos%20Compartilhados/Municipios/Maio%202026/AC/Bujari_20-05-2026.docx" target="_blank" class="btn-abrir">📄 Abrir</a></td></tr>
@@ -5762,13 +5984,17 @@
 <tr data-municipio="wanderlândia" data-uf="to"><td><span class="uf-badge">TO</span></td><td class="municipio">Wanderlândia</td><td class="data">21-05-2026</td><td><a href="https://saudegov.sharepoint.com/:w:/r/sites/notastecnicas/Documentos%20Compartilhados/Municipios/Maio%202026/TO/Wanderl%C3%A2ndia_21-05-2026.docx" target="_blank" class="btn-abrir">📄 Abrir</a></td></tr>
 <tr data-municipio="xambioá" data-uf="to"><td><span class="uf-badge">TO</span></td><td class="municipio">Xambioá</td><td class="data">21-05-2026</td><td><a href="https://saudegov.sharepoint.com/:w:/r/sites/notastecnicas/Documentos%20Compartilhados/Municipios/Maio%202026/TO/Xambio%C3%A1_21-05-2026.docx" target="_blank" class="btn-abrir">📄 Abrir</a></td></tr>
 
-      </tbody>
-    </table>
-    <div class="sem-resultado" id="sem-resultado">Nenhum relatório encontrado.</div>
+        </tbody>
+      </table>
+    </div>
+    <div class="sem-resultado" id="sem-resultado">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      Nenhum relatório encontrado para os filtros aplicados.
+    </div>
   </div>
-</div>
+</main>
 
-<footer>Notas Técnicas Municipais</footer>
+<footer>Ministério da Saúde · SAPS/DEAP · Notas Técnicas Municipais APS 360</footer>
 
 <script>
   const busca    = document.getElementById('busca');
@@ -5807,6 +6033,12 @@
       municipio: tr.dataset.municipio,
       uf: tr.dataset.uf
     });
+  });
+
+  document.getElementById('btn-panorama').addEventListener('click', function() {
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'acesso_panorama_aps', { origem: 'notas_tecnicas' });
+    }
   });
 </script>
 </body>
