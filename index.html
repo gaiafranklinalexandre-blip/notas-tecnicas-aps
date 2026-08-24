@@ -140,10 +140,88 @@
   /* ── Tabs ── */
   .tabs-nav {
     display: flex;
-    gap: 0;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
     border-bottom: 2px solid #dde5ef;
     margin-bottom: 24px;
+    flex-wrap: wrap;
   }
+  .tabs-nav-left { display: flex; gap: 0; }
+  .tabs-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 10px;
+  }
+  .parcela-atual {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: #005a9c;
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 20px;
+    letter-spacing: .02em;
+    box-shadow: 0 1px 4px rgba(0,90,156,.3);
+    white-space: nowrap;
+  }
+  .parcela-atual-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #6fe08a;
+    flex-shrink: 0;
+  }
+  .dropdown-wrap { position: relative; }
+  .dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: 1.5px solid #c8d6e5;
+    color: #4a5b70;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: border-color .18s, color .18s, background .18s;
+  }
+  .dropdown-toggle:hover, .dropdown-toggle.aberto {
+    border-color: #005a9c;
+    color: #005a9c;
+    background: #f5f9ff;
+  }
+  .dropdown-caret { font-size: 0.6rem; transition: transform .18s; }
+  .dropdown-toggle.aberto .dropdown-caret { transform: rotate(180deg); }
+  .dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: #fff;
+    border: 1px solid #dde5ef;
+    border-radius: 8px;
+    box-shadow: 0 10px 28px rgba(26,58,92,.16);
+    min-width: 190px;
+    padding: 6px;
+    z-index: 20;
+    display: none;
+  }
+  .dropdown-menu.aberto { display: block; }
+  .dropdown-menu a {
+    display: block;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: #2c3e50;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .dropdown-menu a:hover { background: #f5f9ff; color: #005a9c; }
   .tab-btn {
     padding: 10px 24px;
     border: none;
@@ -185,40 +263,6 @@
     align-items: center;
     gap: 4px;
   }
-  .badge-parcela {
-    display: inline-block;
-    background: #e8f0fa;
-    color: #005a9c;
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 2px 10px;
-    border-radius: 12px;
-    letter-spacing: .02em;
-  }
-
-  /* ── Alert (notas anteriores) ── */
-  .alert-info {
-    background: #edf4ff;
-    border: 1px solid #c2d9f5;
-    border-left: 4px solid #005a9c;
-    border-radius: 6px;
-    padding: 12px 16px;
-    font-size: 0.83rem;
-    color: #1a3a5c;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .alert-info strong { white-space: nowrap; }
-  .alert-info a {
-    color: #005a9c;
-    text-decoration: none;
-    font-weight: 600;
-  }
-  .alert-info a:hover { text-decoration: underline; }
-  .alert-links { display: flex; flex-wrap: wrap; gap: 4px 12px; }
 
   /* ── Card ── */
   .card {
@@ -448,13 +492,15 @@
 
     main { margin: 14px auto; padding: 0 12px; }
     .tabs-nav { margin-bottom: 16px; }
+    .tabs-nav-left { width: 100%; }
     .tab-btn { padding: 9px 16px; font-size: 0.84rem; flex: 1; text-align: center; }
+    .tabs-nav-right { width: 100%; justify-content: space-between; padding-bottom: 12px; }
+    .parcela-atual { font-size: 0.78rem; padding: 5px 12px; }
+    .dropdown-toggle { font-size: 0.78rem; padding: 5px 12px; }
+    .dropdown-menu { right: 0; left: auto; min-width: 170px; }
 
     .page-title { font-size: 1.05rem; }
     .page-meta { gap: 8px; font-size: 0.78rem; }
-
-    .alert-info { padding: 10px 12px; font-size: 0.8rem; flex-direction: column; gap: 6px; }
-    .alert-links { gap: 4px 10px; }
 
     .controles { padding: 12px 12px 0; gap: 8px; }
     #busca { min-width: 0; width: 100%; }
@@ -502,7 +548,7 @@
        id="btn-panorama">
       &#9685; Panorama APS
     </a>
-    <span style="font-size:0.78rem;color:#6b7c93;">5571 relat&oacute;rios &nbsp;&middot;&nbsp; Atualizado em 23/08/2026 23:33</span>
+    <span style="font-size:0.78rem;color:#6b7c93;">5571 relat&oacute;rios &nbsp;&middot;&nbsp; Atualizado em 24/08/2026 13:28</span>
   </nav>
 </header>
 
@@ -516,8 +562,26 @@
 
 <main>
   <div class="tabs-nav">
-    <button class="tab-btn active" data-tab="municipios">&#127968; Munic&iacute;pios</button>
-    <button class="tab-btn" data-tab="estados">&#128205; Estados</button>
+    <div class="tabs-nav-left">
+      <button class="tab-btn active" data-tab="municipios">&#127968; Munic&iacute;pios</button>
+      <button class="tab-btn" data-tab="estados">&#128205; Estados</button>
+    </div>
+    <div class="tabs-nav-right">
+      <span class="parcela-atual"><span class="parcela-atual-dot"></span>Parcela atual: Agosto 2026</span>
+      <div class="dropdown-wrap">
+        <button class="dropdown-toggle" id="btn-parcelas-anteriores" type="button" aria-haspopup="true" aria-expanded="false">
+          Parcelas anteriores <span class="dropdown-caret">&#9660;</span>
+        </button>
+        <div class="dropdown-menu" id="menu-parcelas-anteriores">
+          <a href="https://saudegov.sharepoint.com/:f:/r/sites/notastecnicas/Documentos%20Compartilhados/Municipios/Julho%202026" target="_blank">Julho 2026</a>
+          <a href="https://saudegov.sharepoint.com/:f:/r/sites/notastecnicas/Documentos%20Compartilhados/Municipios/Junho%202026" target="_blank">Junho 2026</a>
+          <a href="https://saudegov.sharepoint.com/:f:/r/sites/notastecnicas/Documentos%20Compartilhados/Municipios/Maio%202026" target="_blank">Maio 2026</a>
+          <a href="https://saudegov.sharepoint.com/:f:/s/notastecnicas/IgBJ2lxqjQYpQrXGy0wZJesTAXv2h9Y0Y1Mgvytw5EFbS5I?e=2cw3ub" target="_blank">Abril 2026</a>
+          <a href="https://saudegov.sharepoint.com/:f:/s/notastecnicas/IgAXeC3N0GzWRbUYz5YXc4urASQkHyh2K04yVP5tAqwj0uM?e=EuAOQ9" target="_blank">Março 2026</a>
+          <a href="https://saudegov.sharepoint.com/:f:/s/notastecnicas/IgAwFhPxnJj7TbN-3X7zwBtNAQczCcJEHQPCH5XTB6K3778?e=QBqemp" target="_blank">Fevereiro 2026</a>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- ── Aba Municípios ── -->
@@ -525,18 +589,7 @@
     <div class="page-header">
       <div class="page-title">Notas T&eacute;cnicas Municipais</div>
       <div class="page-meta">
-        <div class="page-meta-item">
-          <span>Parcela:</span>
-          <span class="badge-parcela">Agosto 2026</span>
-        </div>
-        <div class="page-meta-item">5571 relat&oacute;rios dispon&iacute;veis</div>
-      </div>
-    </div>
-
-    <div class="alert-info">
-      <strong>Parcelas anteriores:</strong>
-      <div class="alert-links">
-        <a href="https://saudegov.sharepoint.com/:f:/r/sites/notastecnicas/Documentos%20Compartilhados/Municipios/Julho%202026" target="_blank">Julho 2026</a> &nbsp;&middot;&nbsp; <a href="https://saudegov.sharepoint.com/:f:/r/sites/notastecnicas/Documentos%20Compartilhados/Municipios/Junho%202026" target="_blank">Junho 2026</a> &nbsp;&middot;&nbsp; <a href="https://saudegov.sharepoint.com/:f:/r/sites/notastecnicas/Documentos%20Compartilhados/Municipios/Maio%202026" target="_blank">Maio 2026</a> &nbsp;&middot;&nbsp; <a href="https://saudegov.sharepoint.com/:f:/s/notastecnicas/IgBJ2lxqjQYpQrXGy0wZJesTAXv2h9Y0Y1Mgvytw5EFbS5I?e=2cw3ub" target="_blank">Abril 2026</a> &nbsp;&middot;&nbsp; <a href="https://saudegov.sharepoint.com/:f:/s/notastecnicas/IgAXeC3N0GzWRbUYz5YXc4urASQkHyh2K04yVP5tAqwj0uM?e=EuAOQ9" target="_blank">Março 2026</a> &nbsp;&middot;&nbsp; <a href="https://saudegov.sharepoint.com/:f:/s/notastecnicas/IgAwFhPxnJj7TbN-3X7zwBtNAQczCcJEHQPCH5XTB6K3778?e=QBqemp" target="_blank">Fevereiro 2026</a>
+        <div class="page-meta-item">5571 notas t&eacute;cnicas dispon&iacute;veis</div>
       </div>
     </div>
 
@@ -6148,11 +6201,7 @@
     <div class="page-header">
       <div class="page-title">Notas T&eacute;cnicas Estaduais</div>
       <div class="page-meta">
-        <div class="page-meta-item">
-          <span>Parcela:</span>
-          <span class="badge-parcela">Agosto 2026</span>
-        </div>
-        <div class="page-meta-item">27 relat&oacute;rios dispon&iacute;veis</div>
+        <div class="page-meta-item">27 notas t&eacute;cnicas dispon&iacute;veis</div>
       </div>
     </div>
     <div class="card">
@@ -6217,6 +6266,42 @@
       if (breadcrumb) breadcrumb.textContent = labels[tab] || '';
       if (typeof gtag !== 'undefined') gtag('event', 'tab_' + tab);
     });
+  });
+
+  // ── Dropdown de parcelas anteriores ──
+  const dropToggle = document.getElementById('btn-parcelas-anteriores');
+  const dropMenu    = document.getElementById('menu-parcelas-anteriores');
+
+  function fecharDropdown() {
+    dropToggle.classList.remove('aberto');
+    dropToggle.setAttribute('aria-expanded', 'false');
+    dropMenu.classList.remove('aberto');
+  }
+
+  dropToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const abrindo = !dropMenu.classList.contains('aberto');
+    fecharDropdown();
+    if (abrindo) {
+      dropToggle.classList.add('aberto');
+      dropToggle.setAttribute('aria-expanded', 'true');
+      dropMenu.classList.add('aberto');
+    }
+  });
+
+  dropMenu.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    if (!link) return;
+    if (typeof gtag !== 'undefined') gtag('event', 'parcela_anterior_click', { parcela: link.textContent.trim() });
+    fecharDropdown();
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.dropdown-wrap')) fecharDropdown();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') fecharDropdown();
   });
 
   // ── Filtro municípios ──
