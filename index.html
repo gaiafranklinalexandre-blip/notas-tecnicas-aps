@@ -550,7 +550,7 @@
        id="btn-panorama">
       &#9685; Panorama APS
     </a>
-    <span style="font-size:0.78rem;color:#6b7c93;">5571 relat&oacute;rios &nbsp;&middot;&nbsp; Atualizado em 21/10/2026 14:04</span>
+    <span style="font-size:0.78rem;color:#6b7c93;">5571 relat&oacute;rios &nbsp;&middot;&nbsp; Atualizado em 21/10/2026 14:25</span>
   </nav>
 </header>
 
@@ -6251,7 +6251,7 @@
         <div class="page-meta-item">Consulte a nota no navegador. Selecione o territ&oacute;rio abaixo.</div>
       </div>
     </div>
-    <div class="card">
+    <div class="card" id="web-selecao">
       <div class="controles">
         <input id="web-busca" type="search" placeholder="Buscar munic&iacute;pio..." aria-label="Buscar territ&oacute;rio" disabled>
         <select id="web-uf" aria-label="Filtrar por UF" disabled>
@@ -6279,6 +6279,15 @@
         Nenhuma nota encontrada para os filtros aplicados.
       </div>
     </div>
+
+    <section id="web-leitura" hidden aria-label="Leitura da nota t&eacute;cnica">
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:16px 0;">
+        <button id="web-voltar" type="button" class="btn-nav">&larr; Voltar e escolher outra nota</button>
+        <strong id="web-nota-titulo"></strong>
+      </div>
+      <p id="web-nota-status" role="status" aria-live="polite"></p>
+      <div id="web-nota-conteudo"></div>
+    </section>
 
   </div>
 </main>
@@ -6412,10 +6421,111 @@
   const corpo = document.getElementById('web-lista');
   const contador = document.getElementById('web-contador');
   const aviso = document.getElementById('web-aviso');
+  const selecao = document.getElementById('web-selecao');
+  const leitura = document.getElementById('web-leitura');
+  const voltar = document.getElementById('web-voltar');
+  const tituloNota = document.getElementById('web-nota-titulo');
+  const mensagemNota = document.getElementById('web-nota-status');
+  const notaHost = document.getElementById('web-nota-conteudo');
+  const notaRaiz = notaHost.attachShadow({mode: 'open'});
+  let requisicaoNota = null;
+  let notaAtual = null;
+  let botaoAnterior = null;
+  let posicaoLista = 0;
   let catalogo = null;
   let registros = [];
   const chaveCache = 'aps360-catalogo-v2';
   const normalizar = valor => valor.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+  notaRaiz.addEventListener('click', evento => {
+    const link = evento.target.closest('a[href^="#"]');
+    if (!link) return;
+    evento.preventDefault();
+    const alvo = notaRaiz.getElementById(link.getAttribute('href').slice(1));
+    if (alvo) alvo.scrollIntoView({behavior: 'smooth', block: 'start'});
+  });
+
+  function mostrarDocumento(html) {
+    const documento = new DOMParser().parseFromString(html, 'text/html');
+    const conteudo = documento.querySelector('.conteudo');
+    if (!conteudo) throw new Error('Conteúdo da nota não encontrado');
+    documento.querySelectorAll('script, iframe, object, embed, form, link, base, meta').forEach(no => no.remove());
+    documento.querySelectorAll('*').forEach(no => {
+      for (const atributo of Array.from(no.attributes)) {
+        if (/^on/i.test(atributo.name) || /^(?:javascript|vbscript):/i.test(atributo.value.trim())) no.removeAttribute(atributo.name);
+      }
+    });
+    const estilo = document.createElement('style');
+    estilo.textContent = Array.from(documento.querySelectorAll('style'), no => no.textContent.replace(/:root/g, ':host')).join('\n') + `
+      :host { display:block; font-family:'Segoe UI',Arial,sans-serif; color:#243244; }
+      .sidebar { position:static; width:100%; height:auto; max-height:none; transform:none; border-radius:8px; }
+      .conteudo { margin:0; width:100%; padding:24px 0; display:block; }
+      .conteudo-inner { max-width:none; }
+      .nota-sumario { margin:12px 0; }
+      .nota-sumario > summary { cursor:pointer; color:#005a9c; font-weight:700; padding:12px 0; }
+      @media(max-width:760px) { .sidebar { position:static; transform:none; width:100%; } .conteudo { margin:0; width:100%; padding:18px 0; } }
+    `;
+    const fragmento = document.createDocumentFragment();
+    fragmento.appendChild(estilo);
+    const menu = documento.querySelector('.sidebar');
+    if (menu) {
+      const detalhes = document.createElement('details');
+      detalhes.className = 'nota-sumario';
+      const resumo = document.createElement('summary');
+      resumo.textContent = 'Sumário da nota';
+      detalhes.append(resumo, document.importNode(menu, true));
+      fragmento.appendChild(detalhes);
+    }
+    fragmento.appendChild(document.importNode(conteudo, true));
+    notaRaiz.replaceChildren(fragmento);
+  }
+
+  async function abrirNota(url, parametros, botao) {
+    requisicaoNota?.abort();
+    const requisicao = new AbortController();
+    requisicaoNota = requisicao;
+    botaoAnterior = botao;
+    posicaoLista = window.scrollY;
+    notaAtual = parametros;
+    selecao.hidden = true;
+    leitura.hidden = false;
+    tituloNota.textContent = parametros.territorio;
+    mensagemNota.textContent = 'Carregando nota técnica...';
+    notaRaiz.replaceChildren();
+    voltar.focus({preventScroll: true});
+    leitura.scrollIntoView({behavior: 'smooth', block: 'start'});
+    if (typeof gtag === 'function') gtag('event', 'ver_nota_online', parametros);
+    const limite = setTimeout(() => requisicao.abort(), 30000);
+    try {
+      const endpoint = new URL('../notas_catalogo.php', configuracaoWeb.base + '/');
+      endpoint.searchParams.set('nota', new URL(url).pathname.slice(new URL(configuracaoWeb.base + '/').pathname.length));
+      const resposta = await fetch(endpoint, {signal: requisicao.signal});
+      if (!resposta.ok) throw new Error('Nota indisponível');
+      const dados = await resposta.json();
+      if (typeof dados.html !== 'string') throw new Error('Leitor não instalado');
+      if (requisicao !== requisicaoNota) return;
+      mostrarDocumento(dados.html);
+      mensagemNota.textContent = '';
+      if (typeof gtag === 'function') gtag('event', 'nota_online_carregada', parametros);
+    } catch (_) {
+      if (requisicao !== requisicaoNota) return;
+      mensagemNota.textContent = 'Não foi possível carregar a nota. Volte à lista e tente novamente.';
+    } finally {
+      clearTimeout(limite);
+    }
+  }
+
+  voltar.addEventListener('click', () => {
+    requisicaoNota?.abort();
+    requisicaoNota = null;
+    if (notaAtual && typeof gtag === 'function') gtag('event', 'voltar_selecao_nota', notaAtual);
+    notaAtual = null;
+    leitura.hidden = true;
+    selecao.hidden = false;
+    notaRaiz.replaceChildren();
+    botaoAnterior?.focus({preventScroll: true});
+    window.scrollTo({top: posicaoLista, behavior: 'instant'});
+  });
 
   function caminhoNota(arquivo, uf) {
     const relativo = catalogo.caminhos_relativos ? arquivo : `${uf.toLowerCase()}/${arquivo}`;
@@ -6467,16 +6577,17 @@
         parcela.className = 'data';
         parcela.textContent = rotuloParcela();
         const acao = document.createElement('td');
-        const link = document.createElement('a');
+        const link = document.createElement('button');
+        link.type = 'button';
         link.className = 'btn-abrir';
-        link.href = url;
         link.textContent = 'Ver nota';
         link.addEventListener('click', () => {
-          if (typeof gtag === 'function') gtag('event', 'ver_nota_online', {
+          abrirNota(url, {
             escopo: estaduais ? 'estado' : 'municipio', uf,
             municipio: estaduais ? '' : nome, parcela: catalogo.parcela,
+            territorio: nome,
             nota_url: url, transport_type: 'beacon'
-          });
+          }, link);
         });
         acao.appendChild(link);
         linha.append(celulaUf, territorio, parcela, acao);
