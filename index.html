@@ -548,7 +548,7 @@
        id="btn-panorama">
       &#9685; Panorama APS
     </a>
-    <span style="font-size:0.78rem;color:#6b7c93;">5571 relat&oacute;rios &nbsp;&middot;&nbsp; Atualizado em 21/10/2026 13:27</span>
+    <span style="font-size:0.78rem;color:#6b7c93;">5571 relat&oacute;rios &nbsp;&middot;&nbsp; Atualizado em 21/10/2026 13:35</span>
   </nav>
 </header>
 
@@ -557,7 +557,7 @@
   <span class="breadcrumb-sep">&rsaquo;</span>
   <a href="#">Notas T&eacute;cnicas</a>
   <span class="breadcrumb-sep">&rsaquo;</span>
-  <span id="breadcrumb-atual">Munic&iacute;pios &ndash; Setembro 2026</span>
+  <span id="breadcrumb-atual">Munic&iacute;pios</span>
 </div>
 
 <main>
@@ -568,7 +568,7 @@
       <button class="tab-btn" data-tab="web">&#128187; Ver Online</button>
     </div>
     <div class="tabs-nav-right">
-      <span class="parcela-atual"><span class="parcela-atual-dot"></span>Parcela atual: Setembro 2026</span>
+      <span class="parcela-atual"><span class="parcela-atual-dot"></span>Parcela atual: <span id="parcela-atual-rotulo">Consultando...</span></span>
       <div class="dropdown-wrap">
         <button class="dropdown-toggle" id="btn-parcelas-anteriores" type="button" aria-haspopup="true" aria-expanded="false">
           Parcelas anteriores <span class="dropdown-caret">&#9660;</span>
@@ -6253,8 +6253,8 @@
       <div class="controles" style="gap:14px;flex-wrap:wrap;">
         <select id="web-escopo" aria-label="Tipo de territ&oacute;rio">
           <option value="municipio">Munic&iacute;pio</option>
-          <option value="estado">Estado (UF)</option>
-          <option value="brasil">Brasil</option>
+          <option value="estado" hidden disabled>Estado (UF)</option>
+          <option value="brasil" hidden disabled>Brasil</option>
         </select>
         <select id="web-uf" aria-label="Unidade da Federa&ccedil;&atilde;o">
           <option value="">Selecione a UF</option>
@@ -6267,13 +6267,7 @@
       </div>
       <p id="web-aviso" role="status" aria-live="polite" style="color:#6b7c93;font-size:0.85rem;margin-top:14px;"></p>
     </div>
-    <section id="web-leitura" hidden aria-label="Nota t&eacute;cnica selecionada" style="margin-top:20px;">
-      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:12px;">
-        <button class="btn-nav" id="web-voltar" type="button">&larr; Voltar e escolher outra nota</button>
-        <strong id="web-territorio"></strong>
-      </div>
-      <iframe id="web-frame" title="Visualizador da Nota T&eacute;cnica" style="display:block;width:100%;height:80vh;min-height:480px;border:1px solid #e3eaf2;border-radius:12px;background:white;"></iframe>
-    </section>
+
   </div>
 </main>
 
@@ -6290,8 +6284,8 @@
   const tabPanels = document.querySelectorAll('.tab-panel');
   const breadcrumb = document.getElementById('breadcrumb-atual');
   const labels = {
-    municipios: 'Municípios – Setembro 2026',
-    estados:    'Estados – Setembro 2026',
+    municipios: 'Municípios',
+    estados:    'Estados',
     web:        'Ver Online'
   };
 
@@ -6404,23 +6398,9 @@
   const webMunicipio = document.getElementById('web-municipio');
   const webVer       = document.getElementById('web-ver');
   const webAviso     = document.getElementById('web-aviso');
-  const webLeitura = document.getElementById('web-leitura');
-  const webFrame = document.getElementById('web-frame');
-  const webVoltar = document.getElementById('web-voltar');
-  const webTerritorio = document.getElementById('web-territorio');
-  let notaAberta = null;
-
-  webVoltar.addEventListener('click', () => {
-    if (notaAberta && typeof gtag === 'function') {
-      gtag('event', 'voltar_selecao_nota', notaAberta);
-    }
-    webLeitura.hidden = true;
-    webFrame.removeAttribute('src');
-    notaAberta = null;
-    webVer.focus();
-    webEscopo.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  });
+  webEscopo.querySelector('option[value="estado"]').hidden = Object.keys(dadosWeb.consolidados).length === 0;
   webEscopo.querySelector('option[value="estado"]').disabled = Object.keys(dadosWeb.consolidados).length === 0;
+  webEscopo.querySelector('option[value="brasil"]').hidden = !dadosWeb.brasil;
   webEscopo.querySelector('option[value="brasil"]').disabled = !dadosWeb.brasil;
 
   function atualizarEscopoWeb() {
@@ -6482,21 +6462,16 @@
     if (url) {
       const municipio = escopo === 'municipio'
         ? webMunicipio.options[webMunicipio.selectedIndex].textContent : '';
-      notaAberta = {
+      const notaAberta = {
         escopo: escopo,
         uf: escopo === 'brasil' ? '' : webUf.value,
         municipio: municipio,
         parcela: dadosWeb.parcela,
-        nota_url: url
+        nota_url: url,
+        transport_type: 'beacon'
       };
       if (typeof gtag === 'function') gtag('event', 'ver_nota_online', notaAberta);
-      webTerritorio.textContent = escopo === 'brasil' ? 'Brasil'
-        : escopo === 'estado' ? `Estado: ${webUf.value}` : `${municipio} / ${webUf.value}`;
-      webFrame.title = `Nota Técnica - ${webTerritorio.textContent}`;
-      webFrame.src = url;
-      webLeitura.hidden = false;
-      webLeitura.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      webVoltar.focus({ preventScroll: true });
+      window.location.assign(url);
     }
   });
 
@@ -6514,8 +6489,17 @@
       if (!/^parcela-([1-9]|1[0-2])$/.test(catalogo.parcela)
           || !catalogo.municipios || !catalogo.consolidados) throw new Error('Catálogo inválido');
       dadosWeb = { ...catalogo, hostingerBase: dadosWeb.hostingerBase };
-      webEscopo.querySelector('option[value="estado"]').disabled = Object.keys(dadosWeb.consolidados).length === 0;
-      webEscopo.querySelector('option[value="brasil"]').disabled = !dadosWeb.brasil;
+      const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+      const rotuloParcela = catalogo.parcela_rotulo || meses[Number(catalogo.parcela.split('-')[1]) - 1] + ' ' + "2026";
+      document.getElementById('parcela-atual-rotulo').textContent = rotuloParcela;
+      labels.municipios = 'Municípios – ' + rotuloParcela;
+      labels.estados = 'Estados – ' + rotuloParcela;
+      const abaAtiva = document.querySelector('.tab-btn.active');
+      if (abaAtiva) breadcrumb.textContent = labels[abaAtiva.dataset.tab];
+      webEscopo.querySelector('option[value="estado"]').hidden = Object.keys(dadosWeb.consolidados).length === 0;
+  webEscopo.querySelector('option[value="estado"]').disabled = Object.keys(dadosWeb.consolidados).length === 0;
+      webEscopo.querySelector('option[value="brasil"]').hidden = !dadosWeb.brasil;
+  webEscopo.querySelector('option[value="brasil"]').disabled = !dadosWeb.brasil;
       webEscopo.value = Object.keys(dadosWeb.municipios).length ? 'municipio'
         : Object.keys(dadosWeb.consolidados).length ? 'estado' : 'brasil';
       atualizarEscopoWeb();
@@ -6525,6 +6509,9 @@
     } catch (erro) {
       webAviso.textContent = 'Não foi possível consultar as notas no servidor. Recarregue a página para tentar novamente.';
     }
+  }
+  if (window.location.hash === '#web') {
+    document.querySelector('.tab-btn[data-tab="web"]').click();
   }
   carregarCatalogoWeb();
 </script>
