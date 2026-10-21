@@ -87,6 +87,7 @@
     gap: 10px;
     flex-wrap: wrap;
   }
+  .header-meta { font-size: 0.78rem; color: #6b7c93; }
   .btn-nav {
     display: inline-flex;
     align-items: center;
@@ -378,6 +379,9 @@
     text-decoration: none;
     font-size: 0.8rem;
     font-weight: 600;
+    border: 0;
+    cursor: pointer;
+    font-family: inherit;
     transition: background .18s;
     white-space: nowrap;
   }
@@ -480,34 +484,39 @@
     .topbar-sep { display: none; }
     .topbar-left span:not(:first-child) { display: none; }
 
-    header { padding: 0 14px; min-height: 56px; }
-    .header-logo { width: 34px; height: 34px; font-size: 1rem; }
-    .header-title { font-size: 0.9rem; }
+    header { padding: 12px 14px; min-height: 0; display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 10px; }
+    .header-brand { min-width: 0; gap: 8px; }
+    .header-logo { width: 30px; height: 30px; font-size: 1rem; }
+    .header-title { font-size: 0.875rem; }
     .header-subtitle { font-size: 0.72rem; }
-    .header-nav { gap: 6px; }
-    .btn-nav { padding: 5px 12px; font-size: 0.78rem; }
+    .header-nav { gap: 0; }
+    .btn-nav { padding: 7px 9px; font-size: 0.72rem; }
     header > span { display: none; }
+    header > .header-meta { display: block; grid-column: 1 / -1; min-width: 0; font-size: 0.68rem; line-height: 1.4; }
 
     .breadcrumb { padding: 8px 14px; font-size: 0.75rem; }
     .breadcrumb a:first-child { display: none; }
     .breadcrumb .breadcrumb-sep:first-of-type { display: none; }
 
     main { margin: 14px auto; padding: 0 12px; }
-    .tabs-nav { margin-bottom: 16px; }
-    .tabs-nav-left { width: 100%; }
-    .tab-btn { padding: 9px 16px; font-size: 0.84rem; flex: 1; text-align: center; }
-    .tabs-nav-right { width: 100%; justify-content: space-between; padding-bottom: 12px; }
-    .parcela-atual { font-size: 0.78rem; padding: 5px 12px; }
-    .dropdown-toggle { font-size: 0.78rem; padding: 5px 12px; }
-    .dropdown-menu { right: 0; left: auto; min-width: 170px; }
+    .tabs-nav { margin-bottom: 20px; gap: 14px; }
+    .tabs-nav-left { width: 100%; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); }
+    .tab-icon { display: none; }
+    .tab-btn { min-width: 0; min-height: 44px; padding: 10px 5px; font-size: 0.8rem; text-align: center; white-space: normal; }
+    .tabs-nav-right { width: 100%; min-width: 0; display: grid; grid-template-columns: minmax(0,1fr); gap: 8px; padding-bottom: 14px; }
+    .parcela-atual { justify-content: center; font-size: 0.8rem; padding: 10px 12px; white-space: normal; border-radius: 10px; box-shadow: none; }
+    .dropdown-wrap { min-width: 0; }
+    .dropdown-toggle { width: 100%; justify-content: space-between; min-height: 44px; font-size: 0.8rem; padding: 10px 12px; border-radius: 10px; }
+    .dropdown-menu { right: 0; left: 0; min-width: 0; }
 
     .page-title { font-size: 1.05rem; }
-    .page-meta { gap: 8px; font-size: 0.78rem; }
+    .page-meta { gap: 8px; font-size: 0.78rem; line-height: 1.5; }
 
-    .controles { padding: 12px 12px 0; gap: 8px; }
-    #busca, #web-busca { min-width: 0; width: 100%; }
-    #filtro-uf, #web-uf, #web-escopo { width: 100%; }
-    #contador, #web-contador { margin-left: 0; width: 100%; text-align: right; }
+    .controles { padding: 14px; gap: 10px; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); }
+    #busca, #web-busca { grid-column: 1 / -1; min-width: 0; width: 100%; min-height: 46px; border-radius: 10px; font-size: 16px; }
+    #filtro-uf, #web-uf, #web-escopo { min-width: 0; width: 100%; min-height: 44px; border-radius: 10px; font-size: 0.875rem; }
+    #filtro-uf { grid-column: 1 / -1; }
+    #contador, #web-contador { grid-column: 1 / -1; margin-left: 0; width: 100%; text-align: left; font-size: 0.75rem; }
 
     thead th { padding: 9px 10px; font-size: 0.7rem; }
     td { padding: 9px 10px; font-size: 0.82rem; }
@@ -516,11 +525,18 @@
 
     .btn-abrir { padding: 4px 10px; font-size: 0.76rem; }
 
-    /* Nome e acao cabem juntos no celular, inclusive em telas de 320px. */
-    #tabela, #web-tabela { min-width: 0; table-layout: fixed; }
-    #tabela th:first-child, #web-tabela th:first-child { width: 52px !important; }
-    #tabela th:last-child, #web-tabela th:last-child { width: 108px !important; }
-    #tabela td.municipio, #web-tabela td.municipio { white-space: normal; overflow-wrap: anywhere; }
+    /* No celular, cada nota vira um cartao com acao inteira visivel. */
+    #tab-municipios .table-wrap, #tab-web .table-wrap { margin: 0; padding: 0 14px 14px; overflow: visible; }
+    #tabela, #web-tabela { display: block; width: 100%; min-width: 0; }
+    #tabela thead, #web-tabela thead { display: none; }
+    #tabela tbody, #web-tabela tbody { display: grid; gap: 10px; width: 100%; }
+    #tabela tbody tr, #web-tabela tbody tr { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 12px; padding: 14px; background: #fff; border: 1px solid #e3eaf2; border-radius: 10px; }
+    #tabela tbody tr.oculto { display: none; }
+    #tabela td, #web-tabela td { display: block; padding: 0; border: 0; }
+    #tabela td:first-child, #web-tabela td:first-child { grid-column: 2; grid-row: 1; align-self: start; }
+    #tabela td.municipio, #web-tabela td.municipio { grid-column: 1; grid-row: 1; min-width: 0; font-size: 0.95rem; font-weight: 600; line-height: 1.4; white-space: normal; overflow-wrap: anywhere; }
+    #tabela td.data, #web-tabela td.data { display: none; }
+    #tabela td:last-child, #web-tabela td:last-child { grid-column: 1 / -1; grid-row: 2; }
     #tabela .btn-abrir, #web-tabela .btn-abrir {
       display: flex;
       align-items: center;
@@ -567,8 +583,8 @@
        id="btn-panorama">
       &#9685; Panorama APS
     </a>
-    <span style="font-size:0.78rem;color:#6b7c93;">5571 relat&oacute;rios &nbsp;&middot;&nbsp; Atualizado em 21/10/2026 16:21</span>
   </nav>
+  <span class="header-meta">5571 relat&oacute;rios &nbsp;&middot;&nbsp; Atualizado em 21/10/2026 16:28</span>
 </header>
 
 <div class="breadcrumb">
@@ -582,9 +598,9 @@
 <main>
   <div class="tabs-nav">
     <div class="tabs-nav-left">
-      <button class="tab-btn active" data-tab="municipios">&#127968; Munic&iacute;pios</button>
-      <button class="tab-btn" data-tab="estados">&#128205; Estados</button>
-      <button class="tab-btn" data-tab="web">&#128187; Ver Online</button>
+      <button class="tab-btn active" data-tab="municipios"><span class="tab-icon" aria-hidden="true">&#127968;</span> Munic&iacute;pios</button>
+      <button class="tab-btn" data-tab="estados"><span class="tab-icon" aria-hidden="true">&#128205;</span> Estados</button>
+      <button class="tab-btn" data-tab="web"><span class="tab-icon" aria-hidden="true">&#128187;</span> Ver Online</button>
     </div>
     <div class="tabs-nav-right">
       <span class="parcela-atual"><span class="parcela-atual-dot"></span>Parcela atual: <span id="parcela-atual-rotulo">Consultando...</span></span>
@@ -6588,7 +6604,7 @@
         celulaUf.appendChild(badge);
         const territorio = document.createElement('td');
         territorio.className = 'municipio';
-        territorio.textContent = nome;
+        territorio.textContent = nome.replace(new RegExp('\\s*/\\s*' + uf + '$'), '');
         const parcela = document.createElement('td');
         parcela.className = 'data';
         parcela.textContent = rotuloParcela();
