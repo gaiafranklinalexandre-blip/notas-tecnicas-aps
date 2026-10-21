@@ -550,7 +550,7 @@
        id="btn-panorama">
       &#9685; Panorama APS
     </a>
-    <span style="font-size:0.78rem;color:#6b7c93;">5571 relat&oacute;rios &nbsp;&middot;&nbsp; Atualizado em 21/10/2026 14:28</span>
+    <span style="font-size:0.78rem;color:#6b7c93;">5571 relat&oacute;rios &nbsp;&middot;&nbsp; Atualizado em 21/10/2026 14:29</span>
   </nav>
 </header>
 
@@ -6458,25 +6458,24 @@
     const estilo = document.createElement('style');
     estilo.textContent = Array.from(documento.querySelectorAll('style'), no => no.textContent.replace(/:root/g, ':host')).join('\n') + `
       :host { display:block; font-family:'Segoe UI',Arial,sans-serif; color:#243244; }
-      .sidebar { position:static; width:100%; height:auto; max-height:none; transform:none; border-radius:8px; }
-      .conteudo { margin:20px auto; width:100%; max-width:1100px; min-height:70vh; padding:48px 52px; display:block; background:#fff; border:1px solid #e1e6ec; border-radius:2px; box-shadow:0 4px 20px rgba(26,58,92,.08); }
+      .nota-layout { display:grid; grid-template-columns:250px minmax(0,1fr); gap:24px; align-items:start; margin:20px 0; }
+      .sidebar { display:block; position:sticky; top:20px; left:auto; width:100%; height:auto; max-height:calc(100vh - 40px); overflow-y:auto; transform:none; border-radius:8px; }
+      .conteudo { margin:0; width:100%; min-width:0; max-width:1100px; min-height:70vh; padding:40px 36px; display:block; background:#fff; border:1px solid #e1e6ec; border-radius:2px; box-shadow:0 4px 20px rgba(26,58,92,.08); }
       .conteudo-inner { max-width:none; }
-      .nota-sumario { margin:12px 0; }
-      .nota-sumario > summary { cursor:pointer; color:#005a9c; font-weight:700; padding:12px 0; }
-      @media(max-width:760px) { .sidebar { position:static; transform:none; width:100%; } .conteudo { margin:16px auto; width:100%; padding:24px 16px; background:#fff; } }
+      @media(max-width:760px) { .nota-layout { grid-template-columns:minmax(0,1fr); gap:16px; margin:16px 0; } .sidebar { position:static; transform:none; width:100%; max-height:none; } .conteudo { margin:0; width:100%; padding:24px 16px; background:#fff; } }
     `;
     const fragmento = document.createDocumentFragment();
     fragmento.appendChild(estilo);
+    const layout = document.createElement('div');
+    layout.className = 'nota-layout';
     const menu = documento.querySelector('.sidebar');
     if (menu) {
-      const detalhes = document.createElement('details');
-      detalhes.className = 'nota-sumario';
-      const resumo = document.createElement('summary');
-      resumo.textContent = 'Sumário da nota';
-      detalhes.append(resumo, document.importNode(menu, true));
-      fragmento.appendChild(detalhes);
+      layout.appendChild(document.importNode(menu, true));
+    } else {
+      layout.style.gridTemplateColumns = 'minmax(0,1fr)';
     }
-    fragmento.appendChild(document.importNode(conteudo, true));
+    layout.appendChild(document.importNode(conteudo, true));
+    fragmento.appendChild(layout);
     notaRaiz.replaceChildren(fragmento);
   }
 
