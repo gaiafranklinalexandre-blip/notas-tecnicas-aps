@@ -281,7 +281,7 @@
     flex-wrap: wrap;
     align-items: center;
   }
-  #busca {
+  #busca, #web-busca {
     flex: 1;
     min-width: 200px;
     padding: 8px 14px 8px 36px;
@@ -294,10 +294,10 @@
     background-size: 14px;
     color: #2c3e50;
   }
-  #busca:focus { border-color: #005a9c; background-color: #fff; }
-  #busca::placeholder { color: #a0adb8; }
+  #busca:focus, #web-busca:focus { border-color: #005a9c; background-color: #fff; }
+  #busca::placeholder, #web-busca::placeholder { color: #a0adb8; }
 
-  #filtro-uf {
+  #filtro-uf, #web-uf, #web-escopo {
     padding: 8px 12px;
     border: 1.5px solid #c8d6e5;
     border-radius: 20px;
@@ -308,14 +308,16 @@
     outline: none;
     transition: border-color .2s;
   }
-  #filtro-uf:focus { border-color: #005a9c; }
+  #filtro-uf:focus, #web-uf:focus, #web-escopo:focus { border-color: #005a9c; }
 
-  #contador {
+  #contador, #web-contador {
     font-size: 0.8rem;
     color: #6b7c93;
     white-space: nowrap;
     margin-left: auto;
   }
+
+  [hidden] { display: none !important; }
 
   /* ── Table ── */
   .table-wrap { overflow-x: auto; margin-top: 12px; }
@@ -503,9 +505,9 @@
     .page-meta { gap: 8px; font-size: 0.78rem; }
 
     .controles { padding: 12px 12px 0; gap: 8px; }
-    #busca { min-width: 0; width: 100%; }
-    #filtro-uf { width: 100%; }
-    #contador { margin-left: 0; width: 100%; text-align: right; }
+    #busca, #web-busca { min-width: 0; width: 100%; }
+    #filtro-uf, #web-uf, #web-escopo { width: 100%; }
+    #contador, #web-contador { margin-left: 0; width: 100%; text-align: right; }
 
     thead th { padding: 9px 10px; font-size: 0.7rem; }
     td { padding: 9px 10px; font-size: 0.82rem; }
@@ -548,7 +550,7 @@
        id="btn-panorama">
       &#9685; Panorama APS
     </a>
-    <span style="font-size:0.78rem;color:#6b7c93;">5571 relat&oacute;rios &nbsp;&middot;&nbsp; Atualizado em 21/10/2026 13:35</span>
+    <span style="font-size:0.78rem;color:#6b7c93;">5571 relat&oacute;rios &nbsp;&middot;&nbsp; Atualizado em 21/10/2026 14:04</span>
   </nav>
 </header>
 
@@ -6249,23 +6251,33 @@
         <div class="page-meta-item">Consulte a nota no navegador. Selecione o territ&oacute;rio abaixo.</div>
       </div>
     </div>
-    <div class="card" style="padding:24px;">
-      <div class="controles" style="gap:14px;flex-wrap:wrap;">
-        <select id="web-escopo" aria-label="Tipo de territ&oacute;rio">
+    <div class="card">
+      <div class="controles">
+        <input id="web-busca" type="search" placeholder="Buscar munic&iacute;pio..." aria-label="Buscar territ&oacute;rio" disabled>
+        <select id="web-uf" aria-label="Filtrar por UF" disabled>
+          <option value="">Todos os estados</option>
+        </select>
+        <select id="web-escopo" aria-label="Tipo de nota" disabled>
           <option value="municipio">Munic&iacute;pio</option>
-          <option value="estado" hidden disabled>Estado (UF)</option>
-          <option value="brasil" hidden disabled>Brasil</option>
+          <option value="estado">Estado (UF)</option>
         </select>
-        <select id="web-uf" aria-label="Unidade da Federa&ccedil;&atilde;o">
-          <option value="">Selecione a UF</option>
-          <option value="AC">AC — Acre</option><option value="AL">AL — Alagoas</option><option value="AM">AM — Amazonas</option><option value="AP">AP — Amapá</option><option value="BA">BA — Bahia</option><option value="CE">CE — Ceará</option><option value="DF">DF — Distrito Federal</option><option value="ES">ES — Espírito Santo</option><option value="GO">GO — Goiás</option><option value="MA">MA — Maranhão</option><option value="MG">MG — Minas Gerais</option><option value="MS">MS — Mato Grosso do Sul</option><option value="MT">MT — Mato Grosso</option><option value="PA">PA — Pará</option><option value="PB">PB — Paraíba</option><option value="PE">PE — Pernambuco</option><option value="PI">PI — Piauí</option><option value="PR">PR — Paraná</option><option value="RJ">RJ — Rio de Janeiro</option><option value="RN">RN — Rio Grande do Norte</option><option value="RO">RO — Rondônia</option><option value="RR">RR — Roraima</option><option value="RS">RS — Rio Grande do Sul</option><option value="SC">SC — Santa Catarina</option><option value="SE">SE — Sergipe</option><option value="SP">SP — São Paulo</option><option value="TO">TO — Tocantins</option>
-        </select>
-        <select id="web-municipio" aria-label="Munic&iacute;pio">
-          <option value="">Selecione o munic&iacute;pio</option>
-        </select>
-        <button class="btn-nav" id="web-ver" type="button" disabled>Ver Nota T&eacute;cnica</button>
+        <span id="web-contador" role="status" aria-live="polite"></span>
       </div>
-      <p id="web-aviso" role="status" aria-live="polite" style="color:#6b7c93;font-size:0.85rem;margin-top:14px;"></p>
+      <p id="web-aviso" role="status" aria-live="polite" style="padding:0 16px;color:#6b7c93;font-size:0.85rem;"></p>
+      <div class="table-wrap">
+        <table id="web-tabela">
+          <thead><tr>
+            <th style="width:72px">UF</th>
+            <th id="web-coluna-territorio">Munic&iacute;pio</th>
+            <th style="width:150px">Parcela</th>
+            <th style="width:110px">Documento</th>
+          </tr></thead>
+          <tbody id="web-lista"></tbody>
+        </table>
+      </div>
+      <div class="sem-resultado" id="web-sem-resultado" hidden style="display:block;">
+        Nenhuma nota encontrada para os filtros aplicados.
+      </div>
     </div>
 
   </div>
@@ -6391,129 +6403,146 @@
     }
   });
 
-  // ── Visualizador Online (3ª aba) — 100% client-side, sem backend ──
-  let dadosWeb = { municipios: {}, consolidados: {}, brasil: false, parcela: null, hostingerBase: "https://darkgoldenrod-pelican-495804.hostingersite.com/notas-aps" };
-  const webEscopo    = document.getElementById('web-escopo');
-  const webUf        = document.getElementById('web-uf');
-  const webMunicipio = document.getElementById('web-municipio');
-  const webVer       = document.getElementById('web-ver');
-  const webAviso     = document.getElementById('web-aviso');
-  webEscopo.querySelector('option[value="estado"]').hidden = Object.keys(dadosWeb.consolidados).length === 0;
-  webEscopo.querySelector('option[value="estado"]').disabled = Object.keys(dadosWeb.consolidados).length === 0;
-  webEscopo.querySelector('option[value="brasil"]').hidden = !dadosWeb.brasil;
-  webEscopo.querySelector('option[value="brasil"]').disabled = !dadosWeb.brasil;
+  const configuracaoWeb = {"base": "https://darkgoldenrod-pelican-495804.hostingersite.com/notas-aps", "ano": "2026", "ufs": {"AC": "Acre", "AL": "Alagoas", "AM": "Amazonas", "AP": "Amapá", "BA": "Bahia", "CE": "Ceará", "DF": "Distrito Federal", "ES": "Espírito Santo", "GO": "Goiás", "MA": "Maranhão", "MG": "Minas Gerais", "MS": "Mato Grosso do Sul", "MT": "Mato Grosso", "PA": "Pará", "PB": "Paraíba", "PE": "Pernambuco", "PI": "Piauí", "PR": "Paraná", "RJ": "Rio de Janeiro", "RN": "Rio Grande do Norte", "RO": "Rondônia", "RR": "Roraima", "RS": "Rio Grande do Sul", "SC": "Santa Catarina", "SE": "Sergipe", "SP": "São Paulo", "TO": "Tocantins"}};
+  // Incluido no index.html por gerar_indice.py; nenhuma credencial no navegador.
+(() => {
+  const escopo = document.getElementById('web-escopo');
+  const busca = document.getElementById('web-busca');
+  const filtro = document.getElementById('web-uf');
+  const corpo = document.getElementById('web-lista');
+  const contador = document.getElementById('web-contador');
+  const aviso = document.getElementById('web-aviso');
+  let catalogo = null;
+  let registros = [];
+  const chaveCache = 'aps360-catalogo-v2';
+  const normalizar = valor => valor.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-  function atualizarEscopoWeb() {
-    const escopo = webEscopo.value;
-    webUf.style.display = escopo === 'brasil' ? 'none' : '';
-    webMunicipio.style.display = escopo === 'municipio' ? '' : 'none';
-    webUf.innerHTML = '<option value="">Selecione a UF</option>';
-    const ufs = Object.keys(escopo === 'estado' ? dadosWeb.consolidados : dadosWeb.municipios).sort();
-    ufs.forEach(uf => {
-      const opt = document.createElement('option');
-      opt.value = uf;
-      opt.textContent = uf;
-      webUf.appendChild(opt);
-    });
-    webMunicipio.innerHTML = '<option value="">Selecione o município</option>';
-    webVer.disabled = escopo !== 'brasil';
-    webAviso.textContent = (!dadosWeb.brasil && escopo === 'brasil')
-      ? 'Relatório do Brasil ainda não disponível nesta parcela.' : '';
-    if (escopo === 'brasil') webVer.disabled = !dadosWeb.brasil;
+  function caminhoNota(arquivo, uf) {
+    const relativo = catalogo.caminhos_relativos ? arquivo : `${uf.toLowerCase()}/${arquivo}`;
+    if (!/^(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_-]+\.html$/.test(relativo)) return null;
+    return `${configuracaoWeb.base}/${catalogo.parcela}/${relativo}`;
   }
 
-  function atualizarMunicipiosWeb() {
-    const uf = webUf.value;
-    webMunicipio.innerHTML = '<option value="">Selecione o município</option>';
-    webVer.disabled = true;
-    webAviso.textContent = '';
-    if (webEscopo.value === 'estado') {
-      webVer.disabled = !(uf && dadosWeb.consolidados[uf]);
-      if (uf && !dadosWeb.consolidados[uf]) webAviso.textContent = 'Consolidado desta UF ainda não disponível nesta parcela.';
-      return;
-    }
-    const lista = (uf && dadosWeb.municipios[uf]) || [];
-    lista.forEach(([nome, arquivo]) => {
-      const opt = document.createElement('option');
-      opt.value = arquivo;
-      opt.textContent = nome;
-      webMunicipio.appendChild(opt);
+  function filtrar() {
+    const termo = normalizar(busca.value);
+    let visiveis = 0;
+    registros.forEach(({linha, texto, uf}) => {
+      const mostrar = (!filtro.value || filtro.value === uf) && texto.includes(termo);
+      linha.hidden = !mostrar;
+      if (mostrar) visiveis++;
     });
-    if (uf && lista.length === 0) webAviso.textContent = 'Nenhum município desta UF disponível nesta parcela.';
+    contador.textContent = `${visiveis} de ${registros.length} relatórios`;
+    document.getElementById('web-sem-resultado').hidden = visiveis !== 0;
   }
 
-  webEscopo.addEventListener('change', atualizarEscopoWeb);
-  webUf.addEventListener('change', atualizarMunicipiosWeb);
-  webMunicipio.addEventListener('change', () => {
-    webVer.disabled = !webMunicipio.value;
-  });
-
-  webVer.addEventListener('click', () => {
-    const escopo = webEscopo.value;
-    let url = null;
-    const base = `${dadosWeb.hostingerBase}/${dadosWeb.parcela}`;
-    if (escopo === 'brasil' && dadosWeb.brasil) {
-      url = `${base}/brasil.html`;
-    } else if (escopo === 'estado' && webUf.value && dadosWeb.consolidados[webUf.value]) {
-      url = `${base}/${webUf.value.toLowerCase()}/${dadosWeb.consolidados[webUf.value]}`;
-    } else if (escopo === 'municipio' && webUf.value && webMunicipio.value) {
-      url = `${base}/${webUf.value.toLowerCase()}/${webMunicipio.value}`;
+  function renderizar() {
+    if (!catalogo) return;
+    const ufAnterior = filtro.value;
+    const estaduais = escopo.value === 'estado';
+    const porUf = estaduais ? catalogo.consolidados : catalogo.municipios;
+    filtro.replaceChildren(new Option('Todos os estados', ''));
+    Object.keys(estaduais ? configuracaoWeb.ufs : porUf).sort().forEach(uf => {
+      filtro.add(new Option(uf, uf));
+    });
+    if (Array.from(filtro.options).some(opt => opt.value === ufAnterior)) filtro.value = ufAnterior;
+    busca.placeholder = estaduais ? 'Buscar estado...' : 'Buscar município...';
+    document.getElementById('web-coluna-territorio').textContent = estaduais ? 'Estado' : 'Município';
+    const fragmento = document.createDocumentFragment();
+    registros = [];
+    for (const uf of Object.keys(porUf).sort()) {
+      const lista = estaduais ? [[configuracaoWeb.ufs[uf] || uf, porUf[uf]]] : porUf[uf];
+      for (const [nome, arquivo] of lista) {
+        const url = caminhoNota(arquivo, uf);
+        if (!url) continue;
+        const linha = document.createElement('tr');
+        const celulaUf = document.createElement('td');
+        const badge = document.createElement('span');
+        badge.className = 'uf-badge';
+        badge.textContent = uf;
+        celulaUf.appendChild(badge);
+        const territorio = document.createElement('td');
+        territorio.className = 'municipio';
+        territorio.textContent = nome;
+        const parcela = document.createElement('td');
+        parcela.className = 'data';
+        parcela.textContent = rotuloParcela();
+        const acao = document.createElement('td');
+        const link = document.createElement('a');
+        link.className = 'btn-abrir';
+        link.href = url;
+        link.textContent = 'Ver nota';
+        link.addEventListener('click', () => {
+          if (typeof gtag === 'function') gtag('event', 'ver_nota_online', {
+            escopo: estaduais ? 'estado' : 'municipio', uf,
+            municipio: estaduais ? '' : nome, parcela: catalogo.parcela,
+            nota_url: url, transport_type: 'beacon'
+          });
+        });
+        acao.appendChild(link);
+        linha.append(celulaUf, territorio, parcela, acao);
+        fragmento.appendChild(linha);
+        registros.push({linha, texto: normalizar(nome + ' ' + uf), uf});
+      }
     }
-    if (url) {
-      const municipio = escopo === 'municipio'
-        ? webMunicipio.options[webMunicipio.selectedIndex].textContent : '';
-      const notaAberta = {
-        escopo: escopo,
-        uf: escopo === 'brasil' ? '' : webUf.value,
-        municipio: municipio,
-        parcela: dadosWeb.parcela,
-        nota_url: url,
-        transport_type: 'beacon'
-      };
-      if (typeof gtag === 'function') gtag('event', 'ver_nota_online', notaAberta);
-      window.location.assign(url);
-    }
-  });
+    corpo.replaceChildren(fragmento);
+    filtrar();
+  }
 
-  async function carregarCatalogoWeb() {
-    webEscopo.disabled = true;
-    webUf.disabled = true;
-    webMunicipio.disabled = true;
-    webVer.disabled = true;
-    webAviso.textContent = 'Consultando notas disponíveis no servidor...';
+  function rotuloParcela() {
+    const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+      'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+    return catalogo.parcela_rotulo || `${meses[Number(catalogo.parcela.split('-')[1]) - 1]} ${configuracaoWeb.ano}`;
+  }
+
+  function aplicar(dados) {
+    if (!dados || !/^parcela-([1-9]|1[0-2])$/.test(dados.parcela)
+        || !dados.municipios || !dados.consolidados) throw new Error('Catálogo inválido');
+    catalogo = dados;
+    const rotulo = rotuloParcela();
+    document.getElementById('parcela-atual-rotulo').textContent = rotulo;
+    labels.municipios = 'Municípios – ' + rotulo;
+    labels.estados = 'Estados – ' + rotulo;
+    const aba = document.querySelector('.tab-btn.active');
+    if (aba) breadcrumb.textContent = labels[aba.dataset.tab];
+    escopo.disabled = false;
+    busca.disabled = false;
+    filtro.disabled = false;
+    renderizar();
+  }
+
+  escopo.addEventListener('change', renderizar);
+  busca.addEventListener('input', filtrar);
+  filtro.addEventListener('change', filtrar);
+  if (window.location.hash === '#web') document.querySelector('.tab-btn[data-tab="web"]').click();
+
+  // Mostra imediatamente um inventario recente e atualiza pelo servidor em seguida.
+  try {
+    const salvo = JSON.parse(sessionStorage.getItem(chaveCache));
+    if (salvo && Date.now() - salvo.hora < 5 * 60 * 1000) {
+      aplicar(salvo.dados);
+      aviso.textContent = 'Atualizando disponibilidade...';
+    }
+  } catch (_) { /* O site funciona mesmo sem armazenamento no navegador. */ }
+  if (!catalogo) aviso.textContent = 'Consultando notas disponíveis no servidor...';
+  (async () => {
     try {
-      const catalogoUrl = new URL('../notas_catalogo.php', dadosWeb.hostingerBase + '/');
-      const resposta = await fetch(catalogoUrl, { cache: 'no-store' });
-      if (!resposta.ok) throw new Error('Catálogo indisponível');
-      const catalogo = await resposta.json();
-      if (!/^parcela-([1-9]|1[0-2])$/.test(catalogo.parcela)
-          || !catalogo.municipios || !catalogo.consolidados) throw new Error('Catálogo inválido');
-      dadosWeb = { ...catalogo, hostingerBase: dadosWeb.hostingerBase };
-      const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
-      const rotuloParcela = catalogo.parcela_rotulo || meses[Number(catalogo.parcela.split('-')[1]) - 1] + ' ' + "2026";
-      document.getElementById('parcela-atual-rotulo').textContent = rotuloParcela;
-      labels.municipios = 'Municípios – ' + rotuloParcela;
-      labels.estados = 'Estados – ' + rotuloParcela;
-      const abaAtiva = document.querySelector('.tab-btn.active');
-      if (abaAtiva) breadcrumb.textContent = labels[abaAtiva.dataset.tab];
-      webEscopo.querySelector('option[value="estado"]').hidden = Object.keys(dadosWeb.consolidados).length === 0;
-  webEscopo.querySelector('option[value="estado"]').disabled = Object.keys(dadosWeb.consolidados).length === 0;
-      webEscopo.querySelector('option[value="brasil"]').hidden = !dadosWeb.brasil;
-  webEscopo.querySelector('option[value="brasil"]').disabled = !dadosWeb.brasil;
-      webEscopo.value = Object.keys(dadosWeb.municipios).length ? 'municipio'
-        : Object.keys(dadosWeb.consolidados).length ? 'estado' : 'brasil';
-      atualizarEscopoWeb();
-      webEscopo.disabled = false;
-      webUf.disabled = false;
-      webMunicipio.disabled = false;
-    } catch (erro) {
-      webAviso.textContent = 'Não foi possível consultar as notas no servidor. Recarregue a página para tentar novamente.';
+      const resposta = await fetch(new URL('../notas_catalogo.php', configuracaoWeb.base + '/'), {
+        cache: 'no-cache', signal: AbortSignal.timeout(15000)
+      });
+      if (!resposta.ok) throw new Error('Falha na consulta');
+      const dados = await resposta.json();
+      aplicar(dados);
+      aviso.textContent = '';
+      try { sessionStorage.setItem(chaveCache, JSON.stringify({hora: Date.now(), dados})); } catch (_) {}
+    } catch (_) {
+      aviso.textContent = catalogo
+        ? 'Não foi possível atualizar. Exibindo a última lista consultada.'
+        : 'Não foi possível consultar as notas no servidor. Recarregue a página para tentar novamente.';
+      if (!catalogo) document.getElementById('parcela-atual-rotulo').textContent = 'Consulta indisponível';
     }
-  }
-  if (window.location.hash === '#web') {
-    document.querySelector('.tab-btn[data-tab="web"]').click();
-  }
-  carregarCatalogoWeb();
+  })();
+})();
+
 </script>
 </body>
 </html>
