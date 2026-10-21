@@ -516,6 +516,23 @@
 
     .btn-abrir { padding: 4px 10px; font-size: 0.76rem; }
 
+    /* Nome e acao cabem juntos no celular, inclusive em telas de 320px. */
+    #tabela, #web-tabela { min-width: 0; table-layout: fixed; }
+    #tabela th:first-child, #web-tabela th:first-child { width: 52px !important; }
+    #tabela th:last-child, #web-tabela th:last-child { width: 108px !important; }
+    #tabela td.municipio, #web-tabela td.municipio { white-space: normal; overflow-wrap: anywhere; }
+    #tabela .btn-abrir, #web-tabela .btn-abrir {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 44px;
+      padding: 8px 6px;
+      font-size: 0.875rem;
+      white-space: nowrap;
+      box-sizing: border-box;
+    }
+
     .estados-grid {
       grid-template-columns: repeat(3, 1fr);
       gap: 8px;
@@ -550,7 +567,7 @@
        id="btn-panorama">
       &#9685; Panorama APS
     </a>
-    <span style="font-size:0.78rem;color:#6b7c93;">5571 relat&oacute;rios &nbsp;&middot;&nbsp; Atualizado em 21/10/2026 14:29</span>
+    <span style="font-size:0.78rem;color:#6b7c93;">5571 relat&oacute;rios &nbsp;&middot;&nbsp; Atualizado em 21/10/2026 16:21</span>
   </nav>
 </header>
 
