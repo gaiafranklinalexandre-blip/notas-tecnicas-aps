@@ -619,6 +619,20 @@ body.painel-recolhido .painel-app{grid-template-columns:82px minmax(0,1fr)}body.
 .ig-filters label{font-size:14px;gap:8px;line-height:1.5}.ig-toolbar{align-items:end;gap:12px}.ig-toolbar .ig-search{gap:8px;line-height:1.5}.filtro-estados{align-items:end}.estado-acoes .btn-abrir{min-width:102px}
 @media(max-width:1200px){.controles.filtros-painel{grid-template-columns:minmax(150px,200px) minmax(0,1fr)}.filtro-acoes{grid-column:1/-1}}
 @media(max-width:640px){.controles.filtros-painel{grid-template-columns:minmax(0,1fr)}.filtro-acoes{align-items:stretch}.filtro-acoes>button,#painel-estado-limpar{width:100%}.ig-toolbar>button{flex:1 1 135px;white-space:normal}.ig-toolbar .ig-search{flex-basis:100%}.estado-acoes{width:100%;display:grid;grid-template-columns:1fr 1fr}.estado-acoes .btn-abrir{min-width:0;padding-left:10px;padding-right:10px}}
+/* Neutraliza a antiga lista em grid: cabeçalho e resultados usam a mesma tabela. */
+@media(max-width:640px){
+  #tab-municipios .table-wrap{padding:0;margin:0;overflow-x:auto}
+  #painel-conteudo #tabela{display:table;table-layout:fixed;width:100%;min-width:0}
+  #painel-conteudo #tabela thead{display:table-header-group}
+  #painel-conteudo #tabela tbody{display:table-row-group;width:auto;gap:0}
+  #painel-conteudo #tabela tbody tr{display:table-row;grid-template-columns:none;gap:0;padding:0;border:0;border-radius:0;background:transparent}
+  #painel-conteudo #tabela tbody td{display:table-cell;grid-column:auto;grid-row:auto;position:static;width:auto;min-width:0;padding:14px 9px;vertical-align:middle;border:0;border-top:1px solid #edf1f6}
+  #painel-conteudo #tabela tbody td.municipio{font-size:15px;line-height:1.5;white-space:normal;overflow-wrap:break-word;word-break:normal}
+  #painel-conteudo #tabela tbody td.data{display:none}
+  #painel-conteudo #tabela th:first-child{width:44px!important}
+  #painel-conteudo #tabela th:last-child{width:112px!important}
+  #painel-conteudo #tabela .acoes-nota .btn-abrir{display:flex;width:100%;min-width:0;min-height:40px;box-sizing:border-box}
+}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 </style></head>
 <body>
@@ -6566,6 +6580,9 @@ body.painel-recolhido .painel-app{grid-template-columns:82px minmax(0,1fr)}body.
         if (/^on/i.test(atributo.name) || /^(?:javascript|vbscript):/i.test(atributo.value.trim())) no.removeAttribute(atributo.name);
       }
     });
+    conteudo.querySelectorAll('p').forEach(p => {
+      if (/^\s*(?:Fontes?|Notas?)\s*:/i.test(p.textContent)) p.classList.add('p-nota-fonte');
+    });
     const estilo = document.createElement('style');
     estilo.textContent = Array.from(documento.querySelectorAll('style'), no => no.textContent.replace(/:root/g, ':host')).join('\n') + `
       :host { display:block; font-family:'Segoe UI',Arial,sans-serif; color:#243244; }
@@ -6586,7 +6603,9 @@ body.painel-recolhido .painel-app{grid-template-columns:82px minmax(0,1fr)}body.
       .sidebar .sumario-filhos a:hover { color:#0c326f; background:#e4eeff; }
       .sidebar h2 { color:#536b90; padding:0 8px 14px; }
       .conteudo h1 { background:linear-gradient(110deg,#edf4ff,#e1ecff); color:#0c326f; border-left:3px solid #1351b4; font-size:22px; }
-      .conteudo table { width:100%; font-size:14px; }
+      .conteudo table { width:100%; font-size:13px; line-height:1.5; }
+      .conteudo table td,.conteudo table th,.conteudo table p,.conteudo table li,.conteudo table span { font-size:13px; line-height:1.5; }
+      .conteudo p.p-legenda,.conteudo p.p-nota-fonte,.conteudo .chart-rodape { font-size:12px; line-height:1.5; color:#64748b; }
       .conteudo td,.conteudo th { overflow-wrap:anywhere; }
       @media(max-width:760px) { .nota-layout { grid-template-columns:minmax(0,1fr); gap:16px; margin:16px 0; } .sidebar { position:static; transform:none; width:100%; max-height:none; } .conteudo { margin:0; width:100%; padding:24px 16px; background:#fff; } }
     `;
