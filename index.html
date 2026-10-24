@@ -594,6 +594,11 @@
     .estado-nome { font-size: 0.68rem; }
     .estado-abrir { font-size: 0.68rem; padding: 3px 10px; }
   }
+#tab-instrumentos{--ig-blue:#174c72;--ig-muted:#5c6f80;color:#263b4b}#tab-instrumentos [hidden]{display:none!important}.ig-subtitle{color:var(--ig-muted);margin:8px 0 0;font-size:.95rem}.ig-tag,.ig-pill{display:inline-block;border-radius:30px;background:#eaf2f8;color:#174c72;padding:7px 13px;font-size:.8rem}.ig-filters{display:grid;grid-template-columns:1.1fr .65fr 1.6fr auto;gap:18px;padding:22px;align-items:end}.ig-filters label,.ig-search{display:flex;flex-direction:column;gap:8px;font-size:.82rem;font-weight:600}.ig-filters select,.ig-search input{width:100%;min-width:0;min-height:44px;border:1px solid #cbd6df;border-radius:8px;background:white;padding:10px;color:#263b4b;font:inherit}.ig-primary,.ig-toolbar button{min-height:44px;border-radius:8px;padding:10px 18px;cursor:pointer;font:inherit}.ig-primary{background:#174c72;color:white;border:0}.ig-primary:disabled{opacity:.5;cursor:default}#ig-status{color:var(--ig-muted);padding:10px 0}.ig-hero{background:linear-gradient(120deg,#123f60,#246582);color:white;padding:28px;border-radius:14px}.ig-hero h2{margin:6px 0 12px;font-size:1.65rem}.ig-hero p{margin:8px 0;line-height:1.6}.ig-eyebrow{font-size:.76rem;text-transform:uppercase;letter-spacing:.09em}.ig-stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}.ig-stats span{background:#ffffff16;border:1px solid #ffffff30;border-radius:8px;padding:12px 20px}.ig-stats strong{font-size:1.4rem;margin-right:6px}.ig-toolbar{display:flex;gap:12px;align-items:end;margin:22px 0;flex-wrap:wrap}.ig-search{flex:1;min-width:180px}.ig-toolbar button{background:white;border:1px solid #ccd9e2;color:#174c72}.ig-layout{display:grid;grid-template-columns:240px minmax(0,1fr);gap:24px}.ig-index{align-self:start;position:sticky;top:16px;background:white;border:1px solid #dce5ec;border-radius:12px;padding:16px;max-height:75vh;overflow:auto}.ig-index a{display:block;padding:10px 0;color:#174c72;text-decoration:none;border-bottom:1px solid #edf1f4;font-size:.85rem}.ig-index strong{display:block;margin-bottom:8px}.ig-directive{background:white;border:1px solid #dae4eb;border-radius:12px;padding:22px;margin-bottom:20px;scroll-margin-top:20px;box-shadow:0 3px 12px #123f6006}.ig-directive h3{font-size:1.05rem;line-height:1.6;margin:10px 0 20px;overflow-wrap:anywhere}.ig-objective{border-top:1px solid #e1e8ee;padding:20px 0 0}.ig-objective h4{font-size:.95rem;line-height:1.6;margin:8px 0 18px;overflow-wrap:anywhere}.ig-meta{border:1px solid #dce5eb;border-radius:10px;margin:14px 0;overflow:hidden}.ig-meta summary{padding:17px;cursor:pointer;background:#f7fafc;line-height:1.65;overflow-wrap:anywhere}.ig-meta summary strong{color:#174c72}.ig-meta-content{padding:18px;line-height:1.65;overflow-wrap:anywhere}.ig-meta-content p{margin:0 0 18px;white-space:pre-wrap}.ig-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:20px}.ig-metrics div{background:#f6f8fa;border-radius:8px;padding:12px}.ig-metrics dt{font-size:.75rem;color:#5c6f80}.ig-metrics dd{margin:5px 0 0;font-size:.9rem}.ig-years{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.ig-years div{border:1px solid #dbe6ee;border-radius:8px;text-align:center;padding:12px 6px}.ig-years small{display:block;color:#5c6f80;margin-bottom:5px}.ig-years strong{color:#174c72;font-size:1.05rem}.ig-source{margin:26px 0;background:#eef3f7;border-radius:12px;padding:20px;font-size:.8rem;line-height:1.7;color:#536777}.ig-empty{padding:24px;background:#f5f8fa;border-radius:10px}.ig-counter{font-size:.8rem;color:#5c6f80}.ig-plan-selector{display:block;margin:18px 0}.tabs-nav-left{flex-wrap:wrap}#tab-instrumentos :focus-visible{outline:3px solid #dd9c20;outline-offset:3px}
+@media(max-width:800px){.ig-filters{grid-template-columns:1fr 1fr}.ig-layout{grid-template-columns:1fr}.ig-index{position:static;max-height:210px}.ig-metrics{grid-template-columns:1fr}.ig-hero{padding:22px}.ig-directive{padding:16px}.tabs-nav-left .tab-btn{flex:1 1 40%}}
+@media(max-width:640px){.tabs-nav-left{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}.tabs-nav-left .tab-btn{width:100%;min-width:0}.ig-filters{grid-template-columns:1fr;padding:16px}.ig-toolbar button{flex:1}}
+@media(max-width:440px){.ig-years{grid-template-columns:repeat(2,minmax(0,1fr))}.ig-stats span{flex:1;padding:10px}.ig-hero h2{font-size:1.35rem}}
+
 </style>
 </head>
 <body>
@@ -611,7 +616,7 @@
   <div class="header-brand">
     <div class="header-logo">&#128203;</div>
     <div>
-      <div class="header-title">Notas T&eacute;cnicas APS</div>
+      <div class="header-title">Notas t&eacute;cnicas municipais e estaduais</div>
     </div>
   </div>
   <nav class="header-nav">
@@ -620,7 +625,7 @@
       &#9685; Panorama APS
     </a>
   </nav>
-  <span class="header-meta">5571 relat&oacute;rios &nbsp;&middot;&nbsp; Atualizado em 21/10/2026 16:41</span>
+  <span class="header-meta">5571 relat&oacute;rios &nbsp;&middot;&nbsp; Atualizado em 24/10/2026 13:07</span>
 </header>
 
 <div class="breadcrumb">
@@ -637,6 +642,7 @@
       <button class="tab-btn active" data-tab="municipios"><span class="tab-icon" aria-hidden="true">&#127968;</span> Munic&iacute;pios</button>
       <button class="tab-btn" data-tab="estados"><span class="tab-icon" aria-hidden="true">&#128205;</span> Estados</button>
       <button class="tab-btn" data-tab="web"><span class="tab-icon" aria-hidden="true">&#128187;</span> Ver Online</button>
+      <button class="tab-btn" data-tab="instrumentos"><span class="tab-icon" aria-hidden="true">&#128214;</span> Instrumentos de gest&atilde;o</button>
     </div>
     <div class="tabs-nav-right">
       <span class="parcela-atual"><span class="parcela-atual-dot"></span>Parcela atual: <span id="parcela-atual-rotulo">Consultando...</span></span>
@@ -6360,6 +6366,19 @@
     </section>
 
   </div>
+  <section class="tab-panel oculto" id="tab-instrumentos">
+  <div class="page-header"><div><div class="page-title">Instrumentos de gestão</div><p class="ig-subtitle">Planejamento em saúde, do compromisso à meta.</p></div><span class="ig-tag">Plano de Saúde</span></div>
+  <div class="ig-filters card">
+    <label>Esfera<select id="ig-esfera"><option value="municipal">Municipal · 2026–2029</option><option value="estadual">Estadual · 2024–2027</option></select></label>
+    <label>UF<select id="ig-uf" disabled><option value="">Selecione a UF</option></select></label>
+    <label id="ig-municipio-label">Município<select id="ig-municipio" disabled><option value="">Selecione o município</option></select></label>
+    <button id="ig-consultar" class="ig-primary" disabled>Consultar plano</button>
+  </div>
+  <p id="ig-status" role="status" aria-live="polite">Selecione a esfera e o território para consultar.</p>
+  <div id="ig-relatorio" hidden></div>
+  <aside class="ig-source"><strong>Sobre os dados</strong><p>Fonte imediata: <a href="https://investsuspaineis.saude.gov.br/extensions/CGIN_PlanoSaude_DOMI/CGIN_PlanoSaude_DOMI.html" target="_blank" rel="noopener noreferrer">painel InvestSUS</a>. Sistema de origem: DigiSUS. A recarga do painel pode ter defasagem em relação ao sistema de origem. Esta consulta apresenta o relatório estruturado, não o PDF integral do plano.</p><p>Ausência no recorte não comprova inexistência de plano. Valores ausentes são exibidos como “Não informado”. O campo “Valor executado da fonte” conserva o significado da fonte, sem cálculo de percentual de cumprimento.</p><p id="ig-datas"></p></aside>
+</section>
+
 </main>
 
 <footer>
@@ -6377,7 +6396,8 @@
   const labels = {
     municipios: 'Municípios',
     estados:    'Estados',
-    web:        'Ver Online'
+    web:        'Ver Online',
+    instrumentos: 'Instrumentos de gestão'
   };
 
   tabBtns.forEach(btn => {
@@ -6749,6 +6769,135 @@
       if (!catalogo) document.getElementById('parcela-atual-rotulo').textContent = 'Consulta indisponível';
     }
   })();
+})();
+
+  (() => {
+  'use strict';
+  const $ = id => document.getElementById('ig-' + id);
+  const esfera = $('esfera'), uf = $('uf'), municipio = $('municipio'), status = $('status'), relatorio = $('relatorio');
+  const base = new URL('./instrumentos_dados/', document.baseURI);
+  const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const normal = v => String(v ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  const vazio = v => v === null || v === undefined || v === '' || v === '-';
+  const valor = v => vazio(v) ? 'Não informado' : esc(typeof v === 'number' ? v.toLocaleString('pt-BR', {maximumFractionDigits:10}) : v);
+  const ordenar = campo => (a,b) => String(a[campo]).localeCompare(String(b[campo]), 'pt-BR', {numeric:true});
+  let catalogo, carregamento, versao = 0, atual, planos;
+  async function obter(caminho) {
+    const comprimido = caminho !== 'catalogo.json';
+    const resposta = await fetch(new URL(caminho + (comprimido ? '.gz' : ''), base));
+    if (!resposta.ok) throw new Error('HTTP ' + resposta.status);
+    if (comprimido) {
+      const conteudo = resposta.body.pipeThrough(new DecompressionStream('gzip'));
+      return new Response(conteudo).json();
+    }
+    return resposta.json();
+  }
+  function limpar() {
+    versao++;
+    relatorio.hidden = true;
+    relatorio.replaceChildren();
+    atual = null;
+    status.textContent = 'Selecione o território e consulte o plano.';
+  }
+  function atualizar() {
+    limpar();
+    $('municipio-label').hidden = esfera.value === 'estadual';
+    municipio.replaceChildren(new Option('Selecione o município', ''));
+    if (catalogo && uf.value) {
+      for (const m of catalogo.municipios.filter(m => m.uf === uf.value).sort(ordenar('municipio_ibge'))) {
+        municipio.add(new Option(m.municipio_ibge, m.ibge6));
+      }
+    }
+    municipio.disabled = !uf.value;
+    $('consultar').disabled = !uf.value || (esfera.value === 'municipal' && !municipio.value);
+    datas();
+  }
+  function datas() {
+    if (!catalogo) return;
+    const a = catalogo.atualizacao[esfera.value];
+    const data = d => d ? new Date(d).toLocaleString('pt-BR', {timeZone:'America/Sao_Paulo'}) : 'Não informada';
+    $('datas').textContent = `Recarga do painel: ${data(a.recarga_painel_utc)} · Coleta: ${data(a.coleta_fim_utc || a.coleta_fim)} (horário de Brasília).`;
+  }
+  async function iniciar() {
+    if (catalogo || carregamento) return;
+    status.textContent = 'Carregando territórios…';
+    carregamento = true;
+    try {
+      catalogo = await obter('catalogo.json');
+      for (const e of [...catalogo.estados].sort(ordenar('uf'))) uf.add(new Option(e.uf + ' · ' + e.estado, e.uf));
+      uf.disabled = false;
+      atualizar();
+    } catch (_) {
+      status.textContent = 'Não foi possível carregar a base. Tente novamente na aba Instrumentos de gestão. Para acesso local, abra a página pelo servidor HTTP do projeto.';
+    } finally { carregamento = false; }
+  }
+  esfera.addEventListener('change', atualizar);
+  uf.addEventListener('change', atualizar);
+  municipio.addEventListener('change', () => { limpar(); $('consultar').disabled = !municipio.value; });
+  document.querySelector('[data-tab="instrumentos"]').addEventListener('click', iniciar);
+  $('consultar').addEventListener('click', async () => {
+    limpar();
+    const id = versao, tipo = esfera.value, codigo = tipo === 'municipal' ? municipio.value : uf.value;
+    status.textContent = 'Carregando Plano de Saúde…';
+    try {
+      if (tipo === 'municipal') {
+        const m = catalogo.municipios.find(m => m.ibge6 === codigo);
+        if (!m?.tem_situacao) { status.textContent = 'Sem plano disponível neste recorte municipal de 2026–2029. Isso não comprova inexistência de plano no DigiSUS.'; return; }
+      }
+      const dados = await obter(`${tipo}/${codigo}.json`);
+      if (id !== versao) return;
+      planos = dados;
+      if (!planos.length) { status.textContent = 'Não há plano disponível neste recorte.'; return; }
+      apresentar(planos[0]);
+    } catch (_) {
+      if (id === versao) status.textContent = 'Não foi possível consultar o plano. Confira a conexão e tente novamente.';
+    }
+  });
+  function apresentar(dados) {
+    atual = dados;
+    const p = dados.plano, municipal = p.esfera === 'MUNICIPAL';
+    const m = municipal && catalogo.municipios.find(m => m.ibge6 === p.ibge6);
+    const nome = municipal ? m?.municipio_ibge || p.municipio_painel : p.estado;
+    relatorio.hidden = false;
+    status.textContent = '';
+    relatorio.innerHTML = `<div class="ig-hero"><span class="ig-eyebrow">Plano de Saúde · ${municipal ? 'Municipal' : 'Estadual'}</span><h2>${esc(nome)} · ${esc(p.uf)}</h2><p>Vigência ${p.ano_inicio}–${p.ano_fim} <span aria-hidden="true"> · </span> Situação: ${valor(p.situacao)}</p><p>Referência: ${valor(p.data_referencia)} · ${municipal ? 'IBGE municipal' : 'IBGE UF'}: ${esc(municipal ? p.ibge6 : p.ibge_uf)}</p><div class="ig-stats"><span><strong>${dados.diretrizes.length}</strong> diretrizes</span><span><strong>${dados.objetivos.length}</strong> objetivos</span><span><strong>${dados.metas.length}</strong> metas</span></div></div>
+      ${planos.length > 1 ? '<label class="ig-plan-selector">Plano disponível <select id="ig-plano">' + planos.map((x,i) => `<option value="${i}">${esc(x.plano.id_plano)} · ${esc(x.plano.situacao)}</option>`).join('') + '</select></label>' : ''}
+      <div class="ig-toolbar"><label class="ig-search">Buscar nas diretrizes, objetivos, metas e indicadores<input id="ig-busca" type="search" placeholder="Ex.: atenção primária, vacinação, saúde bucal"></label><button id="ig-expandir">Expandir metas</button><button id="ig-recolher">Recolher metas</button></div><p id="ig-contador" class="ig-counter" aria-live="polite"></p><div class="ig-layout"><nav id="ig-indice" class="ig-index" aria-label="Diretrizes do plano"></nav><div id="ig-conteudo"></div></div>`;
+    if ($('plano')) { $('plano').value = String(planos.indexOf(dados)); $('plano').addEventListener('change', e => apresentar(planos[Number(e.target.value)])); }
+    $('busca').addEventListener('input', renderizar);
+    $('expandir').addEventListener('click', () => relatorio.querySelectorAll('details').forEach(d => d.open = true));
+    $('recolher').addEventListener('click', () => relatorio.querySelectorAll('details').forEach(d => d.open = false));
+    renderizar();
+  }
+  function metaHTML(m, anos) {
+    return `<details class="ig-meta"><summary><strong>Meta ${esc(m.numero_meta)}</strong> · ${esc(m.meta)}</summary><div class="ig-meta-content"><p><strong>Indicador</strong><br>${valor(m.indicador)}</p><dl class="ig-metrics"><div><dt>Linha de base</dt><dd>${valor(m.valor_linha_base)} · Ano: ${valor(m.ano_linha_base)}<br>Unidade: ${valor(m.unidade_linha_base)}</dd></div><div><dt>Unidade da meta</dt><dd>${valor(m.unidade_meta)}</dd></div><div><dt>Valor executado da fonte</dt><dd>${valor(m.valor_executado_fonte)}</dd></div></dl><div class="ig-eyebrow">Metas previstas por ano</div><div class="ig-years">${anos.map(a => `<div><small>${a}</small><strong>${valor(m['meta_prevista_' + a])}</strong></div>`).join('')}</div></div></details>`;
+  }
+  function renderizar() {
+    const termo = normal($('busca').value), anos = [];
+    for (let a = atual.plano.ano_inicio; a <= atual.plano.ano_fim; a++) anos.push(a);
+    const nav = [], blocos = [];
+    let metas = 0;
+    const objetivos = new Map(), porObjetivo = new Map();
+    for (const o of atual.objetivos) { if (!objetivos.has(o.id_diretriz)) objetivos.set(o.id_diretriz, []); objetivos.get(o.id_diretriz).push(o); }
+    for (const m of atual.metas) { if (!porObjetivo.has(m.id_objetivo)) porObjetivo.set(m.id_objetivo, []); porObjetivo.get(m.id_objetivo).push(m); }
+    for (const d of [...atual.diretrizes].sort(ordenar('numero_diretriz'))) {
+      const tudoDiretriz = normal(d.diretriz).includes(termo), partes = [];
+      for (const o of (objetivos.get(d.id_diretriz) || []).sort(ordenar('numero_objetivo'))) {
+        const tudoObjetivo = tudoDiretriz || normal(o.objetivo).includes(termo);
+        const lista = (porObjetivo.get(o.id_objetivo) || []).filter(m => tudoObjetivo || normal(m.meta + ' ' + m.indicador).includes(termo)).sort(ordenar('numero_meta'));
+        if (!lista.length && termo && !tudoObjetivo) continue;
+        metas += lista.length;
+        partes.push(`<section class="ig-objective"><span class="ig-eyebrow">Objetivo ${esc(o.numero_objetivo)}</span><h4>${esc(o.objetivo)}</h4>${lista.map(m => metaHTML(m, anos)).join('') || '<p>Sem metas disponíveis neste objetivo.</p>'}</section>`);
+      }
+      if (!partes.length && termo && !tudoDiretriz) continue;
+      nav.push(`<a href="#ig-dir-${esc(d.id_diretriz)}">Diretriz ${esc(d.numero_diretriz)}<br>${esc(d.diretriz.slice(0,95))}${d.diretriz.length > 95 ? '…' : ''}</a>`);
+      blocos.push(`<article class="ig-directive" id="ig-dir-${esc(d.id_diretriz)}"><span class="ig-pill">Diretriz ${esc(d.numero_diretriz)}</span><h3>${esc(d.diretriz)}</h3>${partes.join('') || '<p>Sem objetivos disponíveis nesta diretriz.</p>'}</article>`);
+    }
+    $('indice').innerHTML = '<strong>Neste plano</strong>' + nav.join('');
+    $('conteudo').innerHTML = blocos.join('') || '<p class="ig-empty">Nenhum resultado para a busca. Tente outro termo.</p>';
+    $('contador').textContent = `${metas} de ${atual.metas.length} metas · ${blocos.length} diretrizes exibidas`;
+    if (!atual.diretrizes.length && !termo) $('conteudo').innerHTML = '<p class="ig-empty">A situação do plano está disponível, mas o detalhamento não consta neste recorte.</p>';
+  }
 })();
 
 </script>
