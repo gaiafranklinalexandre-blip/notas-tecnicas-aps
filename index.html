@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Notas Técnicas APS – Ministério da Saúde</title>
+<title>Notas técnicas municipais e estaduais – Ministério da Saúde</title>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-D8TE54RKD3"></script>
 <script>
@@ -625,7 +625,7 @@
       &#9685; Panorama APS
     </a>
   </nav>
-  <span class="header-meta">5571 relat&oacute;rios &nbsp;&middot;&nbsp; Atualizado em 24/10/2026 13:07</span>
+  <span class="header-meta">5571 relat&oacute;rios &nbsp;&middot;&nbsp; Atualizado em 24/10/2026 13:14</span>
 </header>
 
 <div class="breadcrumb">
@@ -667,7 +667,7 @@
   <!-- ── Aba Municípios ── -->
   <div class="tab-panel" id="tab-municipios">
     <div class="page-header">
-      <div class="page-title">Notas T&eacute;cnicas Municipais</div>
+      <div class="page-title">Notas t&eacute;cnicas municipais</div>
       <div class="page-meta">
         <div class="page-meta-item">5571 notas t&eacute;cnicas dispon&iacute;veis</div>
       </div>
@@ -6279,7 +6279,7 @@
   <!-- ── Aba Estados ── -->
   <div class="tab-panel oculto" id="tab-estados">
     <div class="page-header">
-      <div class="page-title">Notas T&eacute;cnicas Estaduais</div>
+      <div class="page-title">Notas t&eacute;cnicas estaduais</div>
       <div class="page-meta">
         <div class="page-meta-item">27 notas t&eacute;cnicas dispon&iacute;veis</div>
       </div>
@@ -6376,7 +6376,7 @@
   </div>
   <p id="ig-status" role="status" aria-live="polite">Selecione a esfera e o território para consultar.</p>
   <div id="ig-relatorio" hidden></div>
-  <aside class="ig-source"><strong>Sobre os dados</strong><p>Fonte imediata: <a href="https://investsuspaineis.saude.gov.br/extensions/CGIN_PlanoSaude_DOMI/CGIN_PlanoSaude_DOMI.html" target="_blank" rel="noopener noreferrer">painel InvestSUS</a>. Sistema de origem: DigiSUS. A recarga do painel pode ter defasagem em relação ao sistema de origem. Esta consulta apresenta o relatório estruturado, não o PDF integral do plano.</p><p>Ausência no recorte não comprova inexistência de plano. Valores ausentes são exibidos como “Não informado”. O campo “Valor executado da fonte” conserva o significado da fonte, sem cálculo de percentual de cumprimento.</p><p id="ig-datas"></p></aside>
+  <aside class="ig-source"><p id="ig-datas">Fonte: DigiSUS. Data de atualização: carregando…</p></aside>
 </section>
 
 </main>
@@ -6815,8 +6815,10 @@
   function datas() {
     if (!catalogo) return;
     const a = catalogo.atualizacao[esfera.value];
-    const data = d => d ? new Date(d).toLocaleString('pt-BR', {timeZone:'America/Sao_Paulo'}) : 'Não informada';
-    $('datas').textContent = `Recarga do painel: ${data(a.recarga_painel_utc)} · Coleta: ${data(a.coleta_fim_utc || a.coleta_fim)} (horário de Brasília).`;
+    const data = new Date(a?.recarga_painel_utc);
+    const rotulo = a?.recarga_painel_utc && !Number.isNaN(data.getTime())
+      ? data.toLocaleDateString('pt-BR', {timeZone:'America/Sao_Paulo'}) : 'Não informada';
+    $('datas').textContent = `Fonte: DigiSUS. Data de atualização: ${rotulo}`;
   }
   async function iniciar() {
     if (catalogo || carregamento) return;
