@@ -14,14 +14,14 @@ a{color:var(--blue)}
 button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #d69e28;outline-offset:3px}
 
 .header{background:linear-gradient(115deg,#fff 45%,#f1f6ff);box-shadow:0 2px 4px #071d4108,0 8px 25px #1351b41a}
-.institution{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 34px;border-bottom:1px solid #e9eff8;background:#ffffffb3}
+.institution{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:15px 32px;border-bottom:1px solid #e9eff8;background:#ffffffb3}
 .logo-sus{display:block;width:76px;height:auto;max-height:40px;object-fit:contain;flex-shrink:0}
-.institution-text{display:flex;align-items:center;gap:15px;color:#40536d;font-size:14px}
+.institution-text{display:flex;align-items:center;gap:15px;color:#40536d;font-size:15px}
 .institution-text strong{font-weight:650;color:var(--blue)}
 .separator{height:19px;border-left:1px solid #d8e1ec}
-.brand{display:flex;align-items:center;gap:20px;padding:24px 34px;border-bottom:1px solid #dce7fa;flex-wrap:wrap}
-.brand-name{font-size:23px;font-weight:650;letter-spacing:-.6px;color:#263448}
-.brand-caption{font-size:14px;color:var(--muted);margin-top:4px}
+.brand{display:flex;align-items:center;gap:18px;padding:24px 32px;border-bottom:1px solid #dce7fa;flex-wrap:wrap}
+.brand-name{font-size:24px;font-weight:650;letter-spacing:-.5px;color:#263448}
+.brand-caption{font-size:14px;color:var(--muted);margin-top:5px}
 
 /* Menu lateral — mesmo padrão visual do índice de Notas Técnicas
    (painel_cabecalho.html/painel_visual.css), implementado aqui de forma
@@ -112,7 +112,7 @@ input:hover,select:hover{border-color:#829cc0}
 .stat-tooltip .dica-clique{margin-top:10px;padding-top:9px;border-top:1px solid var(--line);color:var(--blue);font-weight:650;font-size:11.5px;text-align:center}
 
 /* Rodapé: barra fina de cor, sem texto — padrão único entre nossas páginas */
-.rodape-padrao{height:6px;margin-top:40px;background:linear-gradient(90deg,#1351b4,#16856a)}
+.rodape-padrao{background:none;border:0;padding:25px 30px;text-align:center;font-size:12px;color:#8190a4;margin-top:40px}
 
 .modal-overlay{position:fixed;inset:0;z-index:100;background:#071d4199;display:flex;align-items:center;justify-content:center;padding:24px}
 .modal-overlay[hidden]{display:none}
@@ -252,7 +252,7 @@ input:hover,select:hover{border-color:#829cc0}
 </main>
 </div>
 
-<footer class="rodape-padrao"></footer>
+<footer class="rodape-padrao">APS 360 2026</footer>
 
 <div class="modal-overlay" id="modal-overlay" hidden>
   <div class="modal-caixa" id="modal-caixa"></div>
