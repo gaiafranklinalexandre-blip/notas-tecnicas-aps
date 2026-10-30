@@ -502,14 +502,20 @@ const CARDS = [
       ["titulo", "Técnicos de enfermagem"], ["Credenciados", "quilombola_tec_enfermagem_credenciado", "n"], ["Pagos", "quilombola_tec_enfermagem_pago", "n"], ["Valor pago", "quilombola_tec_enfermagem_valor", "r"],
       ["total", "Valor total pago", "quilombola_valor_pago", "r"],
     ],
+    colunasTabela: ["Componente", "Credenciados", "Não custeados", "Pagos", "Valor pago (R$)"],
     detalhe: [
       ["Equipes credenciadas", "quilombola_equipes_credenciadas", "n"],
-      ["Apoio — credenciado", "quilombola_apoio_credenciado", "n"], ["Apoio — não custeado", "quilombola_apoio_nao_custeado", "n"], ["Apoio — pago", "quilombola_apoio_pago", "n"], ["Apoio — valor", "quilombola_apoio_valor", "r"],
-      ["Embarcação — credenciado", "quilombola_embarcacao_credenciado", "n"], ["Embarcação — não custeado", "quilombola_embarcacao_nao_custeado", "n"], ["Embarcação — pago", "quilombola_embarcacao_pago", "n"], ["Embarcação — valor", "quilombola_embarcacao_valor", "r"],
-      ["Transporte — credenciado", "quilombola_transporte_credenciado", "n"], ["Transporte — não custeado", "quilombola_transporte_nao_custeado", "n"], ["Transporte — pago", "quilombola_transporte_pago", "n"], ["Transporte — valor", "quilombola_transporte_valor", "r"],
-      ["Prof. Superior — credenciado", "quilombola_prof_superior_credenciado", "n"], ["Prof. Superior — não custeado", "quilombola_prof_superior_nao_custeado", "n"], ["Prof. Superior — pago", "quilombola_prof_superior_pago", "n"], ["Prof. Superior — valor", "quilombola_prof_superior_valor", "r"],
-      ["Téc. Enfermagem — credenciado", "quilombola_tec_enfermagem_credenciado", "n"], ["Téc. Enfermagem — não custeado", "quilombola_tec_enfermagem_nao_custeado", "n"], ["Téc. Enfermagem — pago", "quilombola_tec_enfermagem_pago", "n"], ["Téc. Enfermagem — valor", "quilombola_tec_enfermagem_valor", "r"],
-      ["Total de Componentes Pagos", "quilombola_componentes_pagos", "n"], ["Valor Total Pago", "quilombola_valor_pago", "r"],
+      ["linha", "Apoio", ["quilombola_apoio_credenciado", "n"], ["quilombola_apoio_nao_custeado", "n"], ["quilombola_apoio_pago", "n"], ["quilombola_apoio_valor", "r"]],
+      ["linha", "Embarcação", ["quilombola_embarcacao_credenciado", "n"], ["quilombola_embarcacao_nao_custeado", "n"], ["quilombola_embarcacao_pago", "n"], ["quilombola_embarcacao_valor", "r"]],
+      ["linha", "Transporte", ["quilombola_transporte_credenciado", "n"], ["quilombola_transporte_nao_custeado", "n"], ["quilombola_transporte_pago", "n"], ["quilombola_transporte_valor", "r"]],
+      ["linha", "Prof. superior", ["quilombola_prof_superior_credenciado", "n"], ["quilombola_prof_superior_nao_custeado", "n"], ["quilombola_prof_superior_pago", "n"], ["quilombola_prof_superior_valor", "r"]],
+      ["linha", "Téc. enfermagem", ["quilombola_tec_enfermagem_credenciado", "n"], ["quilombola_tec_enfermagem_nao_custeado", "n"], ["quilombola_tec_enfermagem_pago", "n"], ["quilombola_tec_enfermagem_valor", "r"]],
+      ["linha", "Total",
+        [["quilombola_apoio_credenciado", "quilombola_embarcacao_credenciado", "quilombola_transporte_credenciado", "quilombola_prof_superior_credenciado", "quilombola_tec_enfermagem_credenciado"], "n"],
+        [["quilombola_apoio_nao_custeado", "quilombola_embarcacao_nao_custeado", "quilombola_transporte_nao_custeado", "quilombola_prof_superior_nao_custeado", "quilombola_tec_enfermagem_nao_custeado"], "n"],
+        ["quilombola_componentes_pagos", "n"],
+        ["quilombola_valor_pago", "r"],
+      ],
     ],
   },
   {
@@ -1063,6 +1069,14 @@ function agruparDetalheParaTabela(detalhe) {
       linhas.push({ tipo: "subtotal", nome, camposQtd, camposValor, tipoQtd, tipoValor });
       continue;
     }
+    // Linha com N colunas de valor (ex: Quilombola — Componente | Credenciados
+    // | Não custeados | Pagos | Valor pago), pra cards que não cabem no
+    // padrão genérico de 1 ou 2 valores por linha.
+    if (item[0] === "linha") {
+      const [, nome, ...celulas] = item;
+      linhas.push({ tipo: "linha-n", nome, celulas });
+      continue;
+    }
     const [label, campo, tipo] = item;
     const matchQtd = label.match(/^(.*) — Qtd\.$/);
     const proximo = detalhe[i + 1];
@@ -1088,9 +1102,10 @@ function ehLinhaTotal(nome) {
 }
 
 function montarTabelaDetalhe(card, linhas) {
+  const colunas = card.colunasTabela || ["Categoria", "Qtd.", "Valor"];
   const itens = agruparDetalheParaTabela(card.detalhe);
   const corpo = itens.map((item) => {
-    if (item.tipo === "titulo") return `<tr class="grupo"><td colspan="3">${item.texto}</td></tr>`;
+    if (item.tipo === "titulo") return `<tr class="grupo"><td colspan="${colunas.length}">${item.texto}</td></tr>`;
     // Linhas com Qtd. + Valor juntos (categoria-mãe, ex: Municipal/Estadual/
     // Distrital no CEO) ficam em negrito, como as de total — destacam a
     // categoria principal das sub-linhas de detalhe (Tipo 1/2/3/RCPD) abaixo.
@@ -1101,9 +1116,19 @@ function montarTabelaDetalhe(card, linhas) {
     if (item.tipo === "subtotal") {
       return `<tr${classe}><td>${item.nome}</td><td>${fmt(item.tipoQtd, somarVarios(linhas, item.camposQtd))}</td><td>${fmt(item.tipoValor, somarVarios(linhas, item.camposValor))}</td></tr>`;
     }
-    return `<tr${classe}><td>${item.nome}</td><td colspan="2">${fmt(item.tipoValor, somar(linhas, item.campo))}</td></tr>`;
+    if (item.tipo === "linha-n") {
+      // Cada célula é [campo, tipo] (1 valor) ou [[campo1,campo2,...], tipo]
+      // (soma de vários campos — usado na linha "Total" de uma tabela).
+      const tds = item.celulas.map(([campo, tipo]) => {
+        const total = Array.isArray(campo) ? somarVarios(linhas, campo) : somar(linhas, campo);
+        return `<td>${fmt(tipo, total)}</td>`;
+      }).join("");
+      return `<tr${classe}><td>${item.nome}</td>${tds}</tr>`;
+    }
+    return `<tr${classe}><td>${item.nome}</td><td colspan="${colunas.length - 1}">${fmt(item.tipoValor, somar(linhas, item.campo))}</td></tr>`;
   }).join("");
-  return `<table class="tabela-detalhe"><thead><tr><th>Categoria</th><th>Qtd.</th><th>Valor</th></tr></thead><tbody>${corpo}</tbody></table>`;
+  const thead = colunas.map((c) => `<th>${c}</th>`).join("");
+  return `<table class="tabela-detalhe"><thead><tr>${thead}</tr></thead><tbody>${corpo}</tbody></table>`;
 }
 
 function abrirModalCard(card, linhas) {
