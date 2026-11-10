@@ -93,7 +93,8 @@ input:hover,select:hover{border-color:#829cc0}
    o mesmo tamanho (largura e altura) — nada de hierarquia de tamanho. */
 .mosaico-linhas{display:grid;grid-template-columns:repeat(10,1fr);gap:12px;margin-top:22px}
 .stat-filler{visibility:hidden}
-.stat{position:relative;min-width:0;cursor:pointer;background:linear-gradient(125deg,#fff 50%,#f0f5ff);border:1px solid #dce6f7;border-radius:10px;box-shadow:var(--shadow);padding:18px 10px;overflow:visible;transition:box-shadow .18s,transform .18s,opacity .18s}
+.stat{position:relative;min-width:0;cursor:pointer;background:linear-gradient(125deg,#fff 50%,#f0f5ff);border:1px solid #dce6f7;border-radius:10px;box-shadow:var(--shadow);padding:18px 10px;overflow:visible;transition:box-shadow .18s,transform .18s,opacity .18s;-webkit-tap-highlight-color:transparent}
+.stat:focus-visible{outline:3px solid #d69e28;outline-offset:3px}
 .stat:before{content:'';position:absolute;top:0;left:10px;right:10px;height:2px;background:linear-gradient(90deg,#1351b4,#79a7f1,transparent);opacity:.65}
 @media(hover:hover){.stat:hover{transform:translateY(-2px);box-shadow:0 5px 10px #071d4108,0 18px 35px #1351b420;z-index:10}}
 .stat.tem-dado{background:linear-gradient(125deg,#fff 45%,#eef9f1);border-color:#bfe3cb}
@@ -104,7 +105,11 @@ input:hover,select:hover{border-color:#829cc0}
 .stat-label{font-size:13.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .stat-number{font-size:25px;letter-spacing:-.4px;font-weight:650;color:var(--navy);line-height:1.2;margin-top:3px}
 .stat-tooltip{display:none;position:absolute;z-index:30;top:100%;left:50%;transform:translateX(calc(-50% + var(--desloc-tooltip,0px)));margin-top:8px;width:300px;max-width:min(82vw,340px);background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 20px 50px #071d4130;padding:16px;text-align:left;font-size:12.5px;line-height:1.55;color:#263448}
-.stat:hover .stat-tooltip{display:block}
+/* Tooltip só em dispositivo com hover real (mouse) ou via foco de teclado —
+   em touch o hover "gruda" após o toque e brigava com o clique que abre o
+   modal; no celular/tablet o detalhe fica só no modal. */
+@media(hover:hover){.stat:hover .stat-tooltip{display:block}}
+.stat:focus-visible .stat-tooltip{display:block}
 .stat-tooltip .desc{color:var(--muted);margin-bottom:9px}
 .stat-tooltip .titulo{font-weight:700;color:var(--navy);margin:9px 0 3px;font-size:11px;text-transform:uppercase;letter-spacing:.03em}
 .stat-tooltip .linha{display:flex;justify-content:space-between;gap:10px;padding:2px 0}
@@ -112,14 +117,14 @@ input:hover,select:hover{border-color:#829cc0}
 .stat-tooltip .total{font-weight:700;margin-top:9px;padding-top:9px;border-top:1px solid var(--line);display:flex;justify-content:space-between;color:var(--navy)}
 .stat-tooltip .dica-clique{margin-top:10px;padding-top:9px;border-top:1px solid var(--line);color:var(--blue);font-weight:650;font-size:11.5px;text-align:center}
 
-/* Rodapé: barra fina de cor, sem texto — padrão único entre nossas páginas */
+/* Rodapé padrão das nossas páginas: texto centralizado, cinza, sem fundo */
 .rodape-padrao{background:none;border:0;padding:25px 30px;text-align:center;font-size:12px;color:#8190a4;margin-top:40px}
 
 .modal-overlay{position:fixed;inset:0;z-index:100;background:#071d4199;display:flex;align-items:center;justify-content:center;padding:24px}
 .modal-overlay[hidden]{display:none}
 .modal-caixa{background:#fff;border-radius:14px;box-shadow:0 30px 70px #071d4140;width:100%;max-width:560px;max-height:85vh;overflow:auto}
 .modal-caixa .titulo{position:sticky;top:0;background:linear-gradient(120deg,#2670e8,#1351b4 65%,#0c3c8a);color:#fff;font-weight:650;font-size:14.5px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px}
-.modal-caixa .titulo .fechar{cursor:pointer;background:#ffffff26;border:0;color:#fff;width:26px;height:26px;border-radius:50%;font-size:16px;line-height:1;flex:none}
+.modal-caixa .titulo .fechar{cursor:pointer;background:#ffffff26;border:0;color:#fff;width:34px;height:34px;border-radius:50%;font-size:18px;line-height:1;flex:none}
 .modal-caixa .desc{color:var(--muted);padding:14px 18px 0;font-size:12.5px;line-height:1.5}
 .modal-caixa .corpo{padding:14px 18px 18px;overflow-x:auto}
 .tabela-detalhe{width:100%;border-collapse:collapse;font-size:12.5px;white-space:nowrap}
@@ -143,7 +148,13 @@ input:hover,select:hover{border-color:#829cc0}
 .card-detalhe .corpo .linha-link .row-action{width:100%;justify-content:center;font-size:12px;height:38px}
 
 
-@media(max-width:1100px){.main{padding:22px 24px 40px}}
+/* Tablet: 10 colunas não cabem (cards de ~60px); 5 colunas mantêm as linhas
+   temáticas legíveis em 2 metades. Os fillers saem pra não abrir buracos. */
+@media(max-width:1100px){
+  .main{padding:22px 24px 40px}
+  .mosaico-linhas{grid-template-columns:repeat(5,1fr)}
+  .stat-filler{display:none}
+}
 @media(max-width:800px){
   .institution{padding:0 20px;height:auto;flex-wrap:wrap;gap:8px;padding-top:8px;padding-bottom:8px}
   .institution-text{font-size:12px;gap:10px}
@@ -158,6 +169,8 @@ input:hover,select:hover{border-color:#829cc0}
   .grade-detalhe{grid-template-columns:1fr}
   .mosaico-linhas{grid-template-columns:repeat(3,1fr)}
   .stat-filler{display:none}
+  /* 16px evita o zoom automático do iOS ao focar campo de busca/select */
+  input,select{font-size:16px}
 }
 @media(max-width:520px){
   .logo-sus{width:58px;max-height:32px}
@@ -167,12 +180,16 @@ input:hover,select:hover{border-color:#829cc0}
   .headline{display:block}
   .period{display:inline-flex;margin-top:12px}
   .filters{flex-direction:column;align-items:stretch}
-  .field{min-width:0}
+  /* flex-basis 150px (do breakpoint de 800px) viraria ALTURA na direção
+     coluna — zera pra cada campo ocupar só a altura natural */
+  .field{min-width:0;flex:0 0 auto}
   .primary,.row-action{width:100%;justify-content:center}
   .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .mosaico-linhas{grid-template-columns:repeat(2,1fr);gap:9px}
   .stat{padding:13px 14px}
   .stat-number{font-size:19px}
-  .modal-caixa{max-width:100%}
+  .modal-overlay{padding:10px}
+  .modal-caixa{max-width:100%;max-height:92vh}
 }
 </style>
 </head>
@@ -253,7 +270,7 @@ input:hover,select:hover{border-color:#829cc0}
 </main>
 </div>
 
-<footer class="rodape-padrao">APS 360 2026</footer>
+<footer class="rodape-padrao">Ministério da Saúde · SAPS · APS 360 — 2026</footer>
 
 <div class="modal-overlay" id="modal-overlay" hidden>
   <div class="modal-caixa" id="modal-caixa"></div>
@@ -829,6 +846,19 @@ async function iniciar() {
     const card = CARDS.find((c) => c.chave === cardEl.dataset.chave);
     if (card) abrirModalCard(card, ESTADO.linhasAtuais || []);
   });
+  // Teclado: Enter/Espaço no card abre o mesmo modal; foco reposiciona tooltip
+  document.getElementById("mosaico").addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const cardEl = e.target.closest(".stat");
+    if (!cardEl) return;
+    e.preventDefault();
+    const card = CARDS.find((c) => c.chave === cardEl.dataset.chave);
+    if (card) abrirModalCard(card, ESTADO.linhasAtuais || []);
+  });
+  document.getElementById("mosaico").addEventListener("focusin", (e) => {
+    const card = e.target.closest(".stat");
+    if (card) ajustarPosicaoTooltip(card);
+  });
   document.getElementById("modal-overlay").addEventListener("click", (e) => {
     if (e.target.id === "modal-overlay" || e.target.closest(".fechar")) fecharModal();
   });
@@ -993,6 +1023,11 @@ function montarCardMosaico(card, linhas) {
   const div = document.createElement("div");
   div.className = "stat " + (total > 0 ? "tem-dado" : "zerado");
   div.dataset.chave = card.chave;
+  // Card clicável também pelo teclado (Enter/Espaço abre o modal de detalhes)
+  div.setAttribute("role", "button");
+  div.setAttribute("tabindex", "0");
+  div.setAttribute("aria-haspopup", "dialog");
+  div.setAttribute("aria-label", `${card.rotulo}: ${fmtN(total)}. Abrir detalhamento`);
   div.innerHTML = `<div class="stat-label">${card.rotulo}</div><div class="stat-number">${fmtN(total)}</div>
     <div class="stat-tooltip">${montarTooltip(card, linhas)}</div>`;
   return div;
@@ -1132,16 +1167,29 @@ function montarTabelaDetalhe(card, linhas) {
   return `<table class="tabela-detalhe"><thead><tr>${thead}</tr></thead><tbody>${corpo}</tbody></table>`;
 }
 
+let focoAntesDoModal = null;
+
 function abrirModalCard(card, linhas) {
-  document.getElementById("modal-caixa").innerHTML = `
+  focoAntesDoModal = document.activeElement;
+  const caixa = document.getElementById("modal-caixa");
+  caixa.setAttribute("role", "dialog");
+  caixa.setAttribute("aria-modal", "true");
+  caixa.setAttribute("aria-label", `Detalhamento ${card.rotulo}`);
+  caixa.innerHTML = `
     <div class="titulo"><span>${card.rotulo}</span><button type="button" class="fechar" aria-label="Fechar">&times;</button></div>
     <div class="desc">${card.desc}</div>
     <div class="corpo">${montarTabelaDetalhe(card, linhas)}</div>`;
   document.getElementById("modal-overlay").hidden = false;
+  caixa.querySelector(".fechar").focus();
 }
 
 function fecharModal() {
-  document.getElementById("modal-overlay").hidden = true;
+  const overlay = document.getElementById("modal-overlay");
+  if (overlay.hidden) return;
+  overlay.hidden = true;
+  // Devolve o foco pro card que abriu o modal (navegação por teclado)
+  if (focoAntesDoModal && document.contains(focoAntesDoModal)) focoAntesDoModal.focus();
+  focoAntesDoModal = null;
 }
 
 function montarPerfilMunicipio(linhas) {
@@ -1165,12 +1213,29 @@ function recalcular() {
 iniciar();
 </script>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-D8TE54RKD3"></script>
 <script>
+// GA4 condicionado ao consentimento — lê a MESMA chave de localStorage usada
+// pelo índice de Notas Técnicas (painel_privacidade.js, mesma origem). Sem
+// consentimento registrado, o gtag vira no-op e a biblioteca nem é baixada.
+// O banner/diálogo de preferências vive no índice; aqui só honramos a escolha.
+(() => {
+  const KEY = "aps360.privacidade.v1", ID = "G-D8TE54RKD3";
+  let choice = null;
+  try { choice = JSON.parse(localStorage.getItem(KEY)); } catch (_) {}
+  const permitido = choice && choice.version === 1 && choice.analytics === true;
+  window["ga-disable-" + ID] = !permitido;
+  if (!permitido) { window.gtag = function () {}; return; }
   window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
+  window.gtag = function () { dataLayer.push(arguments); };
+  gtag("consent", "default", { analytics_storage: "granted", ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" });
   gtag("js", new Date());
-  gtag("config", "G-D8TE54RKD3");
+  gtag("config", ID, { allow_google_signals: false, allow_ad_personalization_signals: false });
+  const s = document.createElement("script");
+  s.async = true; s.src = "https://www.googletagmanager.com/gtag/js?id=" + ID;
+  document.head.append(s);
+  // Se o usuário mudar a escolha na aba do índice, esta página acompanha.
+  window.addEventListener("storage", (e) => { if (e.key === KEY) location.reload(); });
+})();
 </script>
 </body>
 </html>
