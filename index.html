@@ -771,7 +771,7 @@ body.painel-recolhido .painel-app{grid-template-columns:82px minmax(0,1fr)}body.
 @media(max-width:540px){.painel-logo-sus{width:58px;max-height:32px}.painel-instituicao{flex-wrap:wrap;gap:10px}.painel-instituicao>a{margin-left:auto}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 
-#panorama-quadro{display:block;width:100%;height:80vh;border:0;background:transparent}body.aba-panorama main#painel-conteudo{max-width:none;padding-bottom:0}body.aba-panorama .painel-erro{display:none}
+#panorama-host{display:block;min-height:60vh}body.aba-panorama main#painel-conteudo{max-width:none;padding-bottom:0}body.aba-panorama .painel-erro{display:none}
 /* Rodapé sempre no fim da janela, mesmo em abas curtas (ex.: Instrumentos de gestão). */
 body{min-height:100vh;display:flex;flex-direction:column}body>.painel-app{flex:1 0 auto}body>.painel-footer{flex:none}
 </style></head>
@@ -957,7 +957,7 @@ body{min-height:100vh;display:flex;flex-direction:column}body>.painel-app{flex:1
 </section>
 
   <div class="tab-panel oculto" id="tab-valores" data-src="valores-referencia/aba.html"><p class="vr-aviso" role="status">Carregando valores de referência…</p></div>
-  <div class="tab-panel oculto" id="tab-panorama"><iframe id="panorama-quadro" title="Panorama APS" data-src="panorama/?embutido=1"></iframe></div>
+  <div class="tab-panel oculto" id="tab-panorama"><div id="panorama-host" data-dados="panorama/dados/panorama_dados.json"></div></div>
 </main></div>
 
 <footer class="painel-footer"><span>Ministério da Saúde · SAPS · APS 360 — 2026</span></footer>
@@ -1805,6 +1805,15 @@ window.vrIniciar = function (raiz) {
   $('painel-menu-fundo').onclick=closeMenu;window.addEventListener('resize',menuState);
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('painel-menu-aberto')){closeMenu();toggle.focus();}});menuState();
   let notaAtual=null;
+  // Panorama APS: função da própria página (Shadow DOM, sem iframe). O código
+  // do painel só é baixado na primeira vez que a aba é aberta.
+  function carregarPanorama(){
+    const host=$('panorama-host');if(!host||host.dataset.estado)return;
+    host.dataset.estado='carregando';
+    const s=document.createElement('script');s.src='panorama/embed.js';
+    s.onerror=()=>{host.dataset.estado='';host.textContent='Não foi possível carregar o Panorama APS. Tente novamente em instantes.';};
+    document.head.append(s);
+  }
   window.apsNavegar=tab=>{
     if(!['municipios','estados','instrumentos','web','valores','panorama'].includes(tab))return;
     document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('oculto',p.id!=='tab-'+tab));
@@ -1813,7 +1822,7 @@ window.vrIniciar = function (raiz) {
     $('breadcrumb-atual').textContent={municipios:'Municípios',estados:'Estados',web:'Visualizar nota online',instrumentos:'Instrumentos de gestão',valores:'Valores de referência',panorama:'Panorama APS'}[tab];
     $('painel-parcelas').hidden=['instrumentos','web','valores','panorama'].includes(tab);
     document.body.classList.toggle('aba-panorama',tab==='panorama');
-    if(tab==='panorama'){const q=$('panorama-quadro');if(q&&!q.src)q.src=q.dataset.src;}
+    if(tab==='panorama')carregarPanorama();
     closeMenu();
   };
   document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>{
@@ -1821,13 +1830,10 @@ window.vrIniciar = function (raiz) {
     if(location.hash.startsWith('#aps='))history.replaceState(null,'',location.pathname+location.search);
   }));
   window.apsNavegar('municipios');
-  // Panorama APS dentro do índice: o painel roda num quadro e informa a própria altura.
+  // Rota #panorama: abre a aba direto e mantém o endereço em sincronia.
   (()=>{
-    const quadro=$('panorama-quadro');if(!quadro)return;
+    if(!$('panorama-host'))return;
     const ehPanorama=()=>location.hash==='#panorama';
-    const janela=()=>{if(!quadro.contentWindow||!quadro.src)return;const r=quadro.getBoundingClientRect();quadro.contentWindow.postMessage({aps360:'janela',topo:Math.max(0,-r.top),altura:Math.max(200,Math.min(innerHeight,r.bottom)-Math.max(0,r.top))},location.origin==='null'?'*':location.origin);};
-    window.addEventListener('message',e=>{if(e.source!==quadro.contentWindow||!e.data||e.data.aps360!=='altura')return;quadro.style.height=Math.max(400,Math.ceil(e.data.valor))+'px';janela();});
-    window.addEventListener('scroll',janela,{passive:true});window.addEventListener('resize',janela);
     const rota=()=>{if(ehPanorama())window.apsNavegar('panorama');};
     document.addEventListener('click',e=>{const b=e.target.closest('.tab-btn[data-tab]');if(!b)return;
       if(b.dataset.tab==='panorama'){if(!ehPanorama())history.replaceState(null,'','#panorama');}
