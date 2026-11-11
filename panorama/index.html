@@ -118,7 +118,13 @@ input:hover,select:hover{border-color:#829cc0}
 .stat-tooltip .dica-clique{margin-top:10px;padding-top:9px;border-top:1px solid var(--line);color:var(--blue);font-weight:650;font-size:11.5px;text-align:center}
 
 /* Rodapé padrão das nossas páginas: texto centralizado, cinza, sem fundo */
-.rodape-padrao{background:none;border:0;padding:25px 30px;text-align:center;font-size:12px;color:#8190a4;margin-top:40px}
+.rodape-padrao{background:#071d41;border:0;padding:16px 32px;font-size:12px;font-weight:500;color:#fff;margin-top:0}
+/* Modo embutido (aba "Panorama APS" do índice de Notas Técnicas): só o painel, sem a moldura da página. */
+html.embutido body{background:transparent}
+html.embutido .header,html.embutido .sidebar,html.embutido .rodape-padrao,html.embutido .breadcrumb,html.embutido #menu-fundo{display:none!important}
+html.embutido .app-layout{display:block;min-height:0}
+html.embutido .main{max-width:1240px;padding:0 0 32px}
+html.embutido .modal-overlay{position:absolute;inset:auto 0 auto 0;top:var(--emb-topo,0px);height:var(--emb-altura,100vh)}
 
 .modal-overlay{position:fixed;inset:0;z-index:100;background:#071d4199;display:flex;align-items:center;justify-content:center;padding:24px}
 .modal-overlay[hidden]{display:none}
@@ -194,6 +200,7 @@ input:hover,select:hover{border-color:#829cc0}
 </style>
 </head>
 <body>
+<script>if(new URLSearchParams(location.search).has("embutido")&&window.parent!==window)document.documentElement.classList.add("embutido");</script>
 
 <header class="header">
   <div class="institution">
@@ -220,6 +227,7 @@ input:hover,select:hover{border-color:#829cc0}
     <div class="nav-titulo planejamento">PLANEJAMENTO</div>
     <nav aria-label="Planejamento">
       <a class="nav-item" href="../"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="15" height="18" rx="2"/><path d="M9 4V2h7v2M9 10h7M9 14h7M9 18h4"/></svg><span>Instrumentos de gestão</span></a>
+      <a class="nav-item" href="../#valores"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15 9.5c-.6-1-1.7-1.5-3-1.5-1.7 0-3 .9-3 2.2 0 3 6 1.5 6 4.3 0 1.2-1.3 2-3 2-1.4 0-2.6-.6-3.2-1.6M12 6v2M12 16.5v1.5"/></svg><span>Valores de referência</span></a>
       <span class="nav-item ativo" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M6 21V10M12 21V5M18 21v-8"/></svg><span>Panorama APS</span></span>
     </nav>
     <div class="sidebar-footer"><strong>APS 360</strong>Informação para a gestão.<br>Ministério da Saúde · SAPS</div>
@@ -1211,6 +1219,21 @@ function recalcular() {
 }
 
 iniciar();
+
+// Modo embutido: informa a altura ao índice e recebe a parte visível da janela,
+// para que o detalhe (modal) abra onde a pessoa está olhando.
+(() => {
+  if (!document.documentElement.classList.contains("embutido")) return;
+  const destino = location.origin === "null" ? "*" : location.origin;
+  const avisar = () => parent.postMessage({ aps360: "altura", valor: document.querySelector(".main").getBoundingClientRect().height + 8 }, destino);
+  new ResizeObserver(avisar).observe(document.querySelector(".main"));
+  window.addEventListener("load", avisar); avisar();
+  window.addEventListener("message", (e) => {
+    if (e.source !== parent || !e.data || e.data.aps360 !== "janela") return;
+    document.documentElement.style.setProperty("--emb-topo", e.data.topo + "px");
+    document.documentElement.style.setProperty("--emb-altura", e.data.altura + "px");
+  });
+})();
 </script>
 
 <script>
