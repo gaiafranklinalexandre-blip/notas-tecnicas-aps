@@ -120,7 +120,8 @@ input:hover,select:hover{border-color:#829cc0}
 /* Rodapé padrão das nossas páginas: texto centralizado, cinza, sem fundo */
 .rodape-padrao{background:#071d41;border:0;padding:16px 32px;font-size:12px;font-weight:500;color:#fff;margin-top:0}
 /* Modo embutido (aba "Panorama APS" do índice de Notas Técnicas): só o painel, sem a moldura da página. */
-html.embutido body{background:transparent}
+body{min-height:100vh;display:flex;flex-direction:column}body>.app-layout{flex:1 0 auto}
+html.embutido body{background:transparent;min-height:0;display:block}
 html.embutido .header,html.embutido .sidebar,html.embutido .rodape-padrao,html.embutido .breadcrumb,html.embutido #menu-fundo{display:none!important}
 html.embutido .app-layout{display:block;min-height:0}
 html.embutido .main{max-width:1240px;padding:0 0 32px}
