@@ -772,7 +772,7 @@ body.painel-recolhido .painel-app{grid-template-columns:82px minmax(0,1fr)}body.
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 
 #panorama-host{display:block;min-height:60vh}body.aba-panorama main#painel-conteudo{max-width:none;padding-bottom:0}body.aba-panorama .painel-erro{display:none}
-/* Rodapé sempre no fim da janela, mesmo em abas curtas (ex.: Instrumentos de gestão). */
+/* Rodapé sempre no fim da janela, mesmo em abas curtas (ex.: PAS Municipal). */
 body{min-height:100vh;display:flex;flex-direction:column}body>.painel-app{flex:1 0 auto}body>.painel-footer{flex:none}
 </style></head>
 <body>
@@ -792,7 +792,7 @@ body{min-height:100vh;display:flex;flex-direction:column}body>.painel-app{flex:1
     </nav>
     <div class="painel-nav-titulo planejamento">PLANEJAMENTO</div>
     <nav aria-label="Planejamento">
-      <button class="tab-btn" type="button" data-tab="instrumentos"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="15" height="18" rx="2"/><path d="M9 4V2h7v2M9 10h7M9 14h7M9 18h4"/></svg><span>Instrumentos de gestão</span></button>
+      <button class="tab-btn" type="button" data-tab="instrumentos"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="15" height="18" rx="2"/><path d="M9 4V2h7v2M9 10h7M9 14h7M9 18h4"/></svg><span>PAS Municipal</span></button>
       <button class="tab-btn" type="button" data-tab="valores"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15 9.5c-.6-1-1.7-1.5-3-1.5-1.7 0-3 .9-3 2.2 0 3 6 1.5 6 4.3 0 1.2-1.3 2-3 2-1.4 0-2.6-.6-3.2-1.6M12 6v2M12 16.5v1.5"/></svg><span>Valores de referência</span></button>
       <button class="tab-btn" type="button" data-tab="panorama"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M6 21V10M12 21V5M18 21v-8"/></svg><span>Panorama APS</span></button>
       <a class="tab-btn" href="https://saps-atentimentos.onrender.com/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Painel Integrado ↗</span></a>
@@ -944,7 +944,7 @@ body{min-height:100vh;display:flex;flex-direction:column}body>.painel-app{flex:1
 
   </div>
   <section class="tab-panel oculto" id="tab-instrumentos">
-  <div class="page-header"><div><div class="page-title">Instrumentos de gestão</div><p class="ig-subtitle">Planejamento em saúde, do compromisso à meta.</p></div><span class="ig-tag">Plano de Saúde</span></div>
+  <div class="page-header"><div><div class="page-title">PAS Municipal</div><p class="ig-subtitle">Planejamento em saúde, do compromisso à meta.</p></div><span class="ig-tag">Plano de Saúde</span></div>
   <div class="ig-filters card">
     <label>Esfera<select id="ig-esfera"><option value="municipal">Municipal · 2026–2029</option><option value="estadual">Estadual · 2024–2027</option></select></label>
     <label>UF<select id="ig-uf" disabled><option value="">Selecione a UF</option></select></label>
@@ -1023,7 +1023,7 @@ const labels = {
   municipios: 'Municípios',
   estados:    'Estados',
   web:        'Ver Online',
-  instrumentos: 'Instrumentos de gestão'
+  instrumentos: 'PAS Municipal'
 };
 
 tabBtns.forEach(btn => {
@@ -1527,7 +1527,7 @@ document.querySelector('.tab-btn[data-tab="panorama"]')?.addEventListener('click
       atualizar();
       resolverCatalogo(catalogo);
     } catch (_) {
-      status.textContent = 'Não foi possível carregar a base. Tente novamente na aba Instrumentos de gestão. Para acesso local, abra a página pelo servidor HTTP do projeto.';
+      status.textContent = 'Não foi possível carregar a base. Tente novamente na aba PAS Municipal. Para acesso local, abra a página pelo servidor HTTP do projeto.';
       resolverCatalogo(null);
     } finally { carregamento = false; }
   }
@@ -1819,7 +1819,7 @@ window.vrIniciar = function (raiz) {
     document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('oculto',p.id!=='tab-'+tab));
     const principal=tab==='web'?(notaAtual?.escopo==='estado'?'estados':'municipios'):tab;
     document.querySelectorAll('.tab-btn').forEach(b=>{b.classList.toggle('active',b.dataset.tab===principal);if(b.dataset.tab===principal)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});
-    $('breadcrumb-atual').textContent={municipios:'Municípios',estados:'Estados',web:'Visualizar nota online',instrumentos:'Instrumentos de gestão',valores:'Valores de referência',panorama:'Panorama APS'}[tab];
+    $('breadcrumb-atual').textContent={municipios:'Municípios',estados:'Estados',web:'Visualizar nota online',instrumentos:'PAS Municipal',valores:'Valores de referência',panorama:'Panorama APS'}[tab];
     $('painel-parcelas').hidden=['instrumentos','web','valores','panorama'].includes(tab);
     document.body.classList.toggle('aba-panorama',tab==='panorama');
     if(tab==='panorama')carregarPanorama();
