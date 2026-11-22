@@ -58,3 +58,25 @@ Referências consultadas: [Modal — uso, anatomia, botões e acessibilidade](ht
 Evidências adicionais: `validacoes/govbr-alinhamentos-2026-11-22.json` e `validacoes/govbr-compartilhamento-2026-11-22.json`, com capturas de 390/1440 px. Os testes medem posição, altura e contenção dos controles, não apenas ausência de transbordamento. Repetir no site público e registrar os arquivos com sufixo `-publicado`. Preservar os registros da primeira publicação com sufixo `-inicial`.
 
 Hospedagem confirmada pelo usuário: manter os destinos existentes, Render para os frontends e Hostinger para notas/APIs. A skill Sites foi usada apenas para boas práticas; nenhum Site, hospedagem ou migração foi criado. As 18 imagens preexistentes permanecem intactas no Git; o serviço pode entregar bytes reencodificados. A aprovação SHA-256 dos recursos de interface não inclui essas imagens. PNGs amostrados mantiveram os pixels após decodificação; não foi feita uma auditoria de recompressão de todos os JPEGs.
+
+## Publicação conferida
+
+Atualização final publicada e verificada em 22/11/2026. Commits: LandingPage `d556b0f`, notas-tecnicas-aps `05faafe`, Page_credenciamento `fa85599`, Credenciamentos `a4e1fba`. Vinte recursos de interface/dados estáticos conferidos por SHA-256 no Render; favicon comparado ao das Notas em três páginas (pixels e dimensões iguais, com reencodificação de entrega em parte das respostas). Testes públicos de alinhamento e compartilhamento aprovados. Registro: `validacoes/govbr-encerramento-2026-11-22.json`.
+
+Complemento dos cards: favorito posicionado dentro do cabeçalho, no canto superior direito, sem as margens negativas herdadas do Core. Teste de contenção acrescentado para os favoritos dos 16 cards. LandingPage `9d6ff74`; evidência específica `validacoes/govbr-publicacao-cards-2026-11-22.json`.
+
+## Estrutura comum, contador, rodapé e catálogo de Eventos
+
+Após a comparação do usuário, o hub e as Notas passaram a compartilhar `estrutura-portal.css`, com escopo explícito no corpo da página. Usam o mesmo grid Core `container-lg`, dimensões de marca, título/subtítulo, botão do menu, coluna lateral, tipografia e área central. Os conteúdos e títulos próprios de cada produto permanecem. O rodapé agrupa identidade e preferências com espaço de 32 px no desktop e grupos em linhas separadas no celular; a opção de cookies preserva seu funcionamento. Referências: Header, Menu, Breadcrumb e Footer do acervo oficial 3.7.0. Os assets recebem versão por hash, inclusive o Panorama incorporado.
+
+O contador foi ajustado, no estado inicial e após filtrar, para “5571 de 5571 Notas técnicas”, conforme pedido. Sem alteração no catálogo, links ou regras.
+
+A página `eventos/totems/index.html` e seu `totems.css` receberam o padrão por pedido explícito, com marca SUS, cabeçalho/rodapé comuns, breadcrumb, cards, botões e acesso por teclado. Essa autorização abrange somente o catálogo; os jogos COMBO/EQUIDADE, fontes, downloads e manifesto continuam preservados. Os nomes dos downloads e seus destinos foram mantidos. A regra 10 e o guia da área registram essa distinção.
+
+Testes: `govbr-estrutura-portal-2026-11-22.json` compara as medidas dos dois produtos em sete larguras, contador e preferências; `govbr-catalogo-totems-2026-11-22.json` verifica o catálogo em sete larguras, foco, atalhos, destinos e nomes dos downloads. As cópias com sufixo `-publicado` registram a execução no Render.
+
+## Miniaturas após cada publicação
+
+Escolha do usuário: atualização **a cada nova publicação do hub**. Workflow em `.github/workflows/atualizar-miniaturas.yml` do LandingPage, acionado por push em main e manualmente, sem agenda diária. Os próprios arquivos gerados são excluídos do gatilho. Captura pública sem autenticação, quatro testes de preservação/publicação, commit atômico e controle de concorrência; resultados no resumo do job. Cliente atualiza a imagem por hash, consulta o manifesto novamente quando visível e preserva/restaura o fallback.
+
+A primeira execução por push terminou com sucesso (run 45051765529). A revisão visual identificou duas capturas que retornaram indisponibilidade/carregamento (Mais Médicos e Panorama legado), retiradas do manifesto; foram acrescentadas verificações e casos de teste. SIAPS indisponível, AgSUS autenticado e Totems mantêm as imagens anteriores. A automação não corrige nem altera os painéis de destino. Registro completo em `03_LANDING_PAGE/validacao/publicacao_miniaturas_20261122.json`, na raiz APS 360; manutenção em `03_LANDING_PAGE/Panorama_APS/miniaturas/README.md`.
