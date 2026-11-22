@@ -365,6 +365,16 @@ input::placeholder{color:#636363;opacity:1}
 .main{min-width:0;width:100%}.description{font-size:16px}.field{font-size:14px}.headline h1{font-size:29.036px;font-weight:600}.period{font-size:14px}.stat,.card-detalhe{background:#fff;border:1px solid #ccc;border-radius:4px;box-shadow:0 2px 4px #00000016}.stat:hover{background:#edf5ff;transform:none}.stat-label{color:#333}.stat-number{color:#1351b4}.stat-tooltip{background:#fff;border:1px solid #ccc;border-radius:4px;box-shadow:0 4px 12px #0003;color:#333;font-size:14px}.stat-tooltip .titulo,.stat-tooltip .dica-clique{font-size:12px}.card-detalhe .titulo,.modal-caixa .titulo{background:#1351b4;color:#fff;font-size:16px;font-weight:600}.card-detalhe .corpo .linha,.modal-caixa .desc,.tabela-detalhe{font-size:14px}.tabela-detalhe th{font-size:12px;color:#333;background:#f0f0f0}.aviso{background:#edf5ff;color:#333;border-left:4px solid #1351b4;border-radius:4px;box-shadow:none;font-size:14px}.dot{animation:none}.input-wrap input{height:48px}.input-wrap svg{top:16px}.filters{gap:16px}.row-action,.primary{height:48px}.card-detalhe .corpo .linha:nth-child(odd){background:#f8f8f8}.brand-badge{background:transparent;box-shadow:none;border:0}.modal-caixa .titulo .fechar{height:40px;width:40px}.modal-caixa .corpo{padding:16px}.tabela-detalhe td{color:#333}
 .stat.tem-dado{background:var(--green-cool-vivid-5,#e3f5e1);border-color:#ccc}.stat:before,.stat.tem-dado:before{display:none}.stat.zerado{opacity:1;background:#f0f0f0;border-color:#ccc}.stat.zerado .stat-number{color:#636363}.stat:hover,.stat.tem-dado:hover{background:#edf5ff}.stat-label{font-weight:600}.institution-text{gap:20px}
 @media(max-width:540px){.period{white-space:normal;flex-wrap:wrap;max-width:100%;gap:4px}.filters .field{max-width:100%;min-width:0!important;width:100%}.filters .row-action{white-space:normal}.headline h1{font-size:24.192px}}
+.filters{align-items:flex-end}.filters>.field{justify-content:flex-end;min-width:0}.filters>.row-action{align-self:flex-end;margin-bottom:0;height:48px}.filters .aps-govbr-select{margin:0}.filters .br-input>input{height:48px;min-height:48px}
+.filters:not(#painel-mais-filtros){display:grid;grid-template-columns:minmax(150px,1fr) minmax(180px,1.4fr) max-content max-content;align-items:end}
+.filters>.field.br-input{min-width:0!important}.filters .aps-govbr-select{max-width:none}.filters .br-input>input{margin:0}.filters[hidden]{display:none!important}
+.filters .field .br-input>input,.filters .field.br-input .input-wrap>input{margin:0!important}
+.filters .br-input input{height:48px;min-height:48px;margin:0!important}
+.filters>.field{gap:0}.filters .field>label,.filters .br-input>label{font-size:14px;font-weight:500;line-height:20px;min-height:0;margin:0 0 8px;padding:0}.filters .br-input .input-group{margin:0}
+.filters .br-input label{display:block;font-size:14px;font-weight:500;line-height:20px;min-height:0;margin:0 0 8px;padding:0}.filters #f-municipio{padding-left:40px}
+@media(max-width:1199px){.filters:not(#painel-mais-filtros){grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+@media(max-width:540px){.filters:not(#painel-mais-filtros){grid-template-columns:minmax(0,1fr)}}
+@media(max-width:540px){.filters>.row-action{align-self:stretch}}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@govbr-ds/core@3.7.0/dist/core.min.js"></script>
 <script id="aps-govbr-select-adapter">/* APS 360 — adaptação progressiva de selects dinâmicos ao BRSelect 3.7.0.
@@ -481,8 +491,9 @@ input::placeholder{color:#636363;opacity:1}
     const state = {source:select,host,id:`${select.id}-govbr`,label,description:select.getAttribute('aria-describedby') || '',nativeLabel};
     states.set(select,state);
     try { render(state); } catch (error) { host.remove(); states.delete(select); console.warn('Campo nativo preservado: componente select indisponível.',error); return; }
-    if (nativeLabel) nativeLabel.hidden = true;
+    if (nativeLabel) { nativeLabel.hidden = true; nativeLabel.style.setProperty('display','none','important'); }
     select.hidden = true;
+    select.style.setProperty('display','none','important');
     const proto = select.ownerDocument.defaultView.HTMLSelectElement.prototype;
     for (const property of ['value','selectedIndex']) {
       const descriptor = Object.getOwnPropertyDescriptor(proto,property);
@@ -570,9 +581,7 @@ input::placeholder{color:#636363;opacity:1}
   </div>
 
   <div class="filters">
-    <label class="field">Unidade federativa
-      <select id="f-uf"><option value="">Todos os estados</option></select>
-    </label>
+    <div class="field"><label for="f-uf">Unidade federativa</label><select id="f-uf"><option value="">Todos os estados</option></select></div>
     <div class="field br-input" style="min-width:240px"><label for="f-municipio">Município</label>
       <div class="input-wrap autocomplete">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/></svg>
@@ -585,15 +594,15 @@ input::placeholder{color:#636363;opacity:1}
   </div>
 
   <div class="filters" id="painel-mais-filtros" hidden>
-    <label class="field">Região<select id="f-regiao"><option value="">Todas</option></select></label>
-    <label class="field">Macrorregião<select id="f-macro"><option value="">Todas</option></select></label>
-    <label class="field">Região de Saúde<select id="f-regiao-saude"><option value="">Todas</option></select></label>
-    <label class="field">Porte<select id="f-porte"><option value="">Todos</option></select></label>
-    <label class="field">Capital?<select id="f-capital"><option value="">Tudo</option></select></label>
-    <label class="field">Amazônia Legal<select id="f-amazonia"><option value="">Tudo</option></select></label>
-    <label class="field">Pop. quilombola<select id="f-quilombola"><option value="">Tudo</option></select></label>
-    <label class="field">Fronteira<select id="f-fronteira"><option value="">Tudo</option></select></label>
-    <label class="field">Zona bioclimática<select id="f-zb"><option value="">Todas</option></select></label>
+    <div class="field"><label for="f-regiao">Região</label><select id="f-regiao"><option value="">Todas</option></select></div>
+    <div class="field"><label for="f-macro">Macrorregião</label><select id="f-macro"><option value="">Todas</option></select></div>
+    <div class="field"><label for="f-regiao-saude">Região de Saúde</label><select id="f-regiao-saude"><option value="">Todas</option></select></div>
+    <div class="field"><label for="f-porte">Porte</label><select id="f-porte"><option value="">Todos</option></select></div>
+    <div class="field"><label for="f-capital">Capital?</label><select id="f-capital"><option value="">Tudo</option></select></div>
+    <div class="field"><label for="f-amazonia">Amazônia Legal</label><select id="f-amazonia"><option value="">Tudo</option></select></div>
+    <div class="field"><label for="f-quilombola">Pop. quilombola</label><select id="f-quilombola"><option value="">Tudo</option></select></div>
+    <div class="field"><label for="f-fronteira">Fronteira</label><select id="f-fronteira"><option value="">Tudo</option></select></div>
+    <div class="field"><label for="f-zb">Zona bioclimática</label><select id="f-zb"><option value="">Todas</option></select></div>
   </div>
 
   <div class="mosaico-linhas" id="mosaico"></div>
