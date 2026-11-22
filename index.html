@@ -71,7 +71,7 @@
   }
   .header-subtitle {
     font-size: 0.78rem;
-    color: #6b7c93;
+    color: #4d5d70;
     margin-top: 2px;
   }
   .header-nav {
@@ -80,7 +80,7 @@
     gap: 10px;
     flex-wrap: wrap;
   }
-  .header-meta { font-size: 0.78rem; color: #6b7c93; }
+  .header-meta { font-size: 0.78rem; color: #4d5d70; }
   .btn-nav {
     display: inline-flex;
     align-items: center;
@@ -109,7 +109,7 @@
     border-bottom: 1px solid #e3eaf2;
     padding: 10px 24px;
     font-size: 0.8rem;
-    color: #6b7c93;
+    color: #4d5d70;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -222,7 +222,7 @@
     background: transparent;
     font-size: 0.9rem;
     font-weight: 600;
-    color: #6b7c93;
+    color: #4d5d70;
     cursor: pointer;
     border-bottom: 3px solid transparent;
     margin-bottom: -2px;
@@ -246,7 +246,7 @@
   }
   .page-meta {
     font-size: 0.82rem;
-    color: #6b7c93;
+    color: #4d5d70;
     display: flex;
     align-items: center;
     gap: 16px;
@@ -306,7 +306,7 @@
 
   #contador, #web-contador {
     font-size: 0.8rem;
-    color: #6b7c93;
+    color: #4d5d70;
     white-space: nowrap;
     margin-left: auto;
   }
@@ -970,7 +970,7 @@ input::placeholder{color:#636363;opacity:1}
 </div>  <!-- ── Aba Municípios ── -->
   <div class="tab-panel" id="tab-municipios">
     <div class="page-header">
-      <div class="page-title">Notas t&eacute;cnicas municipais</div>
+      <h1 class="page-title" style="margin:0">Notas t&eacute;cnicas municipais</h1>
       <div class="page-meta">
         <div class="page-meta-item">5571 notas t&eacute;cnicas dispon&iacute;veis</div>
       </div>
@@ -983,7 +983,7 @@ input::placeholder{color:#636363;opacity:1}
         </select></label><label>Município<input id="busca" type="search" placeholder="Busque pelo nome do município"></label><div class="filtro-acoes"><button type="button" id="painel-buscar" class="painel-primary">Buscar notas</button><button type="button" id="painel-limpar" class="btn-abrir">Limpar seleções</button></div></div><div class="tabela-resumo"><span id="contador" role="status">5571 de 5571 relatórios</span><span>Documentos em formato Word</span></div>
 
       <div class="table-wrap">
-        <table id="tabela">
+        <table id="tabela"><caption style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">Notas t&eacute;cnicas municipais</caption>
           <thead>
             <tr>
               <th style="width:72px">UF</th>
@@ -1005,7 +1005,7 @@ input::placeholder{color:#636363;opacity:1}
   <!-- ── Aba Estados ── -->
   <div class="tab-panel oculto" id="tab-estados">
     <div class="page-header">
-      <div class="page-title">Notas t&eacute;cnicas estaduais</div>
+      <h1 class="page-title" style="margin:0">Notas t&eacute;cnicas estaduais</h1>
       <div class="page-meta">
         <div class="page-meta-item">27 notas t&eacute;cnicas dispon&iacute;veis</div>
       </div>
@@ -1047,7 +1047,7 @@ input::placeholder{color:#636363;opacity:1}
   <!-- ── Aba Ver Online ── -->
   <div class="tab-panel oculto" id="tab-web">
     <div class="page-header">
-      <div class="page-title">Visualizar nota t&eacute;cnica online</div>
+      <h1 class="page-title" style="margin:0">Visualizar nota t&eacute;cnica online</h1>
       <div class="page-meta">
         <div class="page-meta-item">Leia a nota completa no navegador, com navega&ccedil;&atilde;o pelo sum&aacute;rio.</div>
       </div>
@@ -1064,9 +1064,9 @@ input::placeholder{color:#636363;opacity:1}
         </select>
         <span id="web-contador" role="status" aria-live="polite"></span>
       </div>
-      <p id="web-aviso" role="status" aria-live="polite" style="padding:0 16px;color:#6b7c93;font-size:0.85rem;"></p>
+      <p id="web-aviso" role="status" aria-live="polite" style="padding:0 16px;color:#4d5d70;font-size:0.85rem;"></p>
       <div class="table-wrap">
-        <table id="web-tabela">
+        <table id="web-tabela"><caption style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">Notas t&eacute;cnicas dispon&iacute;veis para visualiza&ccedil;&atilde;o online</caption>
           <thead><tr>
             <th style="width:72px">UF</th>
             <th id="web-coluna-territorio">Munic&iacute;pio</th>
@@ -1093,7 +1093,7 @@ input::placeholder{color:#636363;opacity:1}
 
   </div>
   <section class="tab-panel oculto" id="tab-instrumentos">
-  <div class="page-header"><div><div class="page-title">PAS Municipal</div><p class="ig-subtitle">Planejamento em saúde, do compromisso à meta.</p></div><span class="ig-tag">Plano de Saúde</span></div>
+  <div class="page-header"><div><h1 class="page-title" style="margin:0">PAS Municipal</h1><p class="ig-subtitle">Planejamento em saúde, do compromisso à meta.</p></div><span class="ig-tag">Plano de Saúde</span></div>
   <div class="ig-filters card">
     <label>Esfera<select id="ig-esfera"><option value="municipal">Municipal · 2026–2029</option><option value="estadual">Estadual · 2024–2027</option></select></label>
     <label>UF<select id="ig-uf" disabled><option value="">Selecione a UF</option></select></label>
@@ -1389,7 +1389,8 @@ document.querySelector('.tab-btn[data-tab="panorama"]')?.addEventListener('click
       :host { --azul:#1351b4; --azul-escuro:#071d41; }
       .conteudo { border-color:#dbe5f4; border-radius:12px; box-shadow:0 3px 7px #071d4105,0 12px 28px #1351b414; font-size:16px; line-height:1.85; }
       .conteudo p,.conteudo li { font-size:16px; line-height:1.85; }
-      .conteudo h1,.conteudo h2,.conteudo h3 { color:#1351b4; }
+      .conteudo h3 { color:#1351b4; }
+      .conteudo h2 { color:#fff; background:#071d41; }
       .sidebar { background:linear-gradient(110deg,#fff,#f0f5ff); border:1px solid #dbe5f4; box-shadow:0 6px 22px #1351b414; padding:18px; }
       .sidebar a { color:#1351b4; font-size:14px; }
       .sidebar .sumario-grupo { border-color:#dbe5f4; }
@@ -1398,7 +1399,6 @@ document.querySelector('.tab-btn[data-tab="panorama"]')?.addEventListener('click
       .sidebar .sumario-filhos a { color:#405a80; font-size:14px; padding:7px 10px; }
       .sidebar .sumario-filhos a:hover { color:#0c326f; background:#e4eeff; }
       .sidebar h2 { color:#536b90; padding:0 8px 14px; }
-      .conteudo h1 { background:linear-gradient(110deg,#edf4ff,#e1ecff); color:#0c326f; border-left:3px solid #1351b4; font-size:22px; }
       .conteudo table { width:100%; font-size:13px; line-height:1.5; }
       .conteudo table td,.conteudo table th,.conteudo table p,.conteudo table li,.conteudo table span { font-size:13px; line-height:1.5; }
       .conteudo p.p-legenda,.conteudo p.p-nota-fonte,.conteudo .chart-rodape { font-size:12px; line-height:1.5; color:#64748b; }
@@ -1409,7 +1409,19 @@ document.querySelector('.tab-btn[data-tab="panorama"]')?.addEventListener('click
       .conteudo { border:1px solid #ccc; border-radius:4px; box-shadow:0 2px 4px #00000016; }
       .sidebar { background:#fff; border:1px solid #ccc; border-radius:4px; box-shadow:none; }
       .sidebar h2,.sidebar .sumario-filhos a { color:#333; }
-      .conteudo h1 { background:#edf5ff; border-left:4px solid #1351b4; color:#071d41; }
+      .conteudo > .conteudo-inner > h1, .conteudo > .conteudo-inner > .nota-subtitulo { display:none; }
+      .sidebar { padding:0; overflow-y:auto; }
+      .sidebar .sidebar-titulo { margin:0; padding:16px 16px 12px; font-size:14px; font-weight:600; color:#333; letter-spacing:0; text-transform:none; border-bottom:1px solid #ccc; }
+      .sidebar .sumario-grupo { border:0; border-bottom:1px solid #e6e6e6; }
+      .sidebar .sumario-grupo summary { display:flex; align-items:center; gap:8px; padding:0 12px 0 16px; min-height:48px; font-size:14px; font-weight:500; line-height:1.35; color:#333; cursor:pointer; list-style:none; }
+      .sidebar .sumario-grupo summary::before { display:none; }
+      .sidebar .sumario-grupo summary::after { content:''; flex:none; width:8px; height:8px; margin-left:auto; border-right:2px solid #555; border-bottom:2px solid #555; transform:rotate(45deg); transition:transform .15s; }
+      .sidebar .sumario-grupo[open] summary::after { transform:rotate(-135deg); }
+      .sidebar .sumario-grupo summary a { flex:1; padding:10px 0; color:#333; text-decoration:none; }
+      .sidebar .sumario-grupo summary:hover, .sidebar .sumario-filhos a:hover { background:#edf5ff; }
+      .sidebar .sumario-filhos { padding:0 0 6px; background:#f8f8f8; }
+      .sidebar .sumario-filhos a { display:block; padding:8px 12px 8px 32px; font-size:14px; line-height:1.35; color:#1351b4; text-decoration:none; border-left:4px solid transparent; }
+      .sidebar .sumario-filhos a:hover { color:#0c326f; border-left-color:#1351b4; }
       .conteudo table,.conteudo table td,.conteudo table th,.conteudo table p,.conteudo table li,.conteudo table span { font-size:14px; }
       .conteudo table th { color:#333; background:#f0f0f0; }
       .conteudo .tabela-wrap { width:100%; max-width:100%; min-width:0; overflow-x:auto; }
