@@ -749,6 +749,10 @@ body.painel-recolhido .painel-app{grid-template-columns:82px minmax(0,1fr)}body.
 /* Contrato dos filtros: altura fixa, sem redução por flex, rótulos alinhados. */
 .controles.filtros-painel{grid-template-columns:minmax(160px,220px) minmax(220px,1fr) auto;align-items:end}
 .controles.filtros-painel label{gap:8px;line-height:1.5;align-self:end}
+#painel-conteudo .filtros-painel .br-input{min-width:0}
+#painel-conteudo .filtros-painel .br-input input{margin:0;height:48px;min-height:48px;max-height:48px;box-sizing:border-box}
+#painel-conteudo #busca{width:100%;min-width:0;background-image:none;padding:0 16px 0 40px}
+#painel-conteudo .filtros-painel input:focus-visible{outline:var(--surface-width-lg,3px) dashed var(--gold-vivid-40,#c2850c);outline-offset:var(--spacing-scale-half,4px)}
 #painel-conteudo #busca,#painel-conteudo #filtro-uf,.filtro-estados input,.ig-filters select,.ig-search input{flex:0 0 auto;height:48px;min-height:48px;max-height:48px;box-sizing:border-box;margin:0;line-height:normal}
 .filtro-acoes{align-items:center}.filtro-acoes>button,#painel-estado-limpar,.ig-toolbar>button{height:48px;min-height:48px;font-size:15px;line-height:1.5;box-sizing:border-box;flex-shrink:0}
 #painel-conteudo input,#painel-conteudo select{font-weight:400}.estado-acoes{margin-top:auto}
@@ -1222,11 +1226,11 @@ body[data-aps-layout="portal"] dialog.painel-dialog{position:fixed;inset:0;margi
       </div>
     </div>
 
-    <div class="painel-stats"><div><strong>5.571</strong></div><span>notas técnicas disponíveis</span><div><strong>27</strong><span>unidades federativas</span></div></div><div class="card br-card">
+    <div class="painel-stats"><div><strong>5.571</strong><span>notas técnicas disponíveis</span></div><div><strong>27</strong><span>unidades federativas</span></div></div><div class="card br-card">
       <div class="controles filtros-painel"><div class="field"><label for="filtro-uf">Unidade federativa</label><select id="filtro-uf">
           <option value="">Todos os estados</option>
           <option value="ac">AC</option><option value="al">AL</option><option value="am">AM</option><option value="ap">AP</option><option value="ba">BA</option><option value="ce">CE</option><option value="df">DF</option><option value="es">ES</option><option value="go">GO</option><option value="ma">MA</option><option value="mg">MG</option><option value="ms">MS</option><option value="mt">MT</option><option value="pa">PA</option><option value="pb">PB</option><option value="pe">PE</option><option value="pi">PI</option><option value="pr">PR</option><option value="rj">RJ</option><option value="rn">RN</option><option value="ro">RO</option><option value="rr">RR</option><option value="rs">RS</option><option value="sc">SC</option><option value="se">SE</option><option value="sp">SP</option><option value="to">TO</option>
-        </select></div><div class="br-input"><label for="busca">Município</label><input id="busca" type="search" placeholder="Busque pelo nome do município"></div><div class="filtro-acoes"><button type="button" id="painel-buscar" class="painel-primary br-button primary">Buscar notas</button><button type="button" id="painel-limpar" class="btn-abrir br-button secondary small">Limpar seleções</button></div></div><div class="tabela-resumo"><span id="contador" role="status">5571 de 5571 Notas técnicas</span><span>Documentos em formato Word</span></div>
+        </select></div><div class="br-input large campo-municipio"><label for="busca">Município</label><div class="input-group"><div class="input-icon"><i class="fas fa-search" aria-hidden="true"></i></div><input id="busca" type="search" placeholder="Busque pelo nome do município"></div></div><div class="filtro-acoes"><button type="button" id="painel-buscar" class="painel-primary br-button primary">Buscar notas</button><button type="button" id="painel-limpar" class="btn-abrir br-button secondary small">Limpar seleções</button></div></div><div class="tabela-resumo"><span id="contador" role="status">5571 de 5571 Notas técnicas</span><span>Documentos em formato Word</span></div>
 
       <div class="table-wrap br-table">
         <table id="tabela"><caption style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">Notas t&eacute;cnicas municipais</caption>
