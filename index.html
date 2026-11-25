@@ -1836,25 +1836,29 @@ document.querySelector('.tab-btn[data-tab="panorama"]')?.addEventListener('click
   }
 
   // "Você está em: ..." na barra e destaque da seção atual no sumário.
-  let observadorSecao = null;
+  let secoesNota = null, secaoAtual = null, quadroSecao = 0;
   function acompanharSecao() {
-    observadorSecao?.disconnect();
     const links = new Map();
     notaRaiz.querySelectorAll('.sidebar a[href^="#"]').forEach(a => {
       const alvo = notaRaiz.getElementById(a.getAttribute('href').slice(1));
       if (alvo && !links.has(alvo)) links.set(alvo, a);
     });
+    secoesNota = links.size ? links : null;
+    secaoAtual = null;
+    atualizarSecao();
+  }
+  // Seção atual = último título do sumário que já passou do topo da tela (abaixo da barra fixa).
+  function atualizarSecao() {
     const rotulo = notaRaiz.querySelector('.nota-secao-atual');
-    if (!links.size || !rotulo) return;
-    const visiveis = new Set();
-    observadorSecao = new IntersectionObserver(entradas => {
-      entradas.forEach(e => e.isIntersecting ? visiveis.add(e.target) : visiveis.delete(e.target));
-      const ordem = [...links.keys()];
-      const atual = ordem.filter(el => visiveis.has(el))[0] ||
-        ordem.filter(el => el.getBoundingClientRect().top < 120).pop();
-      notaRaiz.querySelectorAll('.sidebar a[aria-current]').forEach(a => a.removeAttribute('aria-current'));
-      if (!atual) { rotulo.hidden = true; return; }
-      const link = links.get(atual);
+    if (!secoesNota || !rotulo || leitura.hidden) return;
+    let atual = null;
+    for (const el of secoesNota.keys()) { if (el.getBoundingClientRect().top < 140) atual = el; else break; }
+    if (atual === secaoAtual) return;
+    secaoAtual = atual;
+    notaRaiz.querySelectorAll('.sidebar a[aria-current]').forEach(a => a.removeAttribute('aria-current'));
+    if (!atual) { rotulo.hidden = true; return; }
+    {
+      const link = secoesNota.get(atual);
       link.setAttribute('aria-current', 'location');
       rotulo.hidden = false;
       rotulo.querySelector('strong').textContent = link.textContent.trim();
@@ -1865,9 +1869,12 @@ document.querySelector('.tab-btn[data-tab="panorama"]')?.addEventListener('click
         const r = link.getBoundingClientRect(), l = lista.getBoundingClientRect();
         if (r.top < l.top || r.bottom > l.bottom) lista.scrollTop += r.top - l.top - l.height / 3;
       }
-    }, {rootMargin: '-80px 0px -60% 0px'});
-    links.forEach((_, el) => observadorSecao.observe(el));
+    }
   }
+  window.addEventListener('scroll', () => {
+    if (quadroSecao) return;
+    quadroSecao = requestAnimationFrame(() => { quadroSecao = 0; atualizarSecao(); });
+  }, {passive: true});
 
   // Tabela que não cabe na tela: aviso para arrastar para o lado.
   function avisarTabelasLargas() {
